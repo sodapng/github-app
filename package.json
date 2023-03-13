@@ -14,10 +14,10 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "clsx": "^1.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.9.0",
-    "clsx": "^1.2.1"
+    "react-router-dom": "^6.9.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -44,6 +44,7 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-sonarjs": "^0.18.0",
     "eslint-plugin-unicorn": "^46.0.0",
+    "jsdom": "^21.1.1",
     "postcss": "^8.4.21",
     "prettier": "^2.8.4",
     "prettier-plugin-tailwindcss": "^0.2.4",
