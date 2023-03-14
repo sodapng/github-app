@@ -1,4 +1,4 @@
-import { Main, NotFound } from 'pages'
+import { About, Main, NotFound } from 'pages'
 import { RouteObject } from 'react-router-dom'
 
 export const routes: RouteObject[] = [
@@ -7,4 +7,5 @@ export const routes: RouteObject[] = [
     element: <Main />,
     errorElement: <NotFound />,
   },
+  { path: 'about', element: <About /> },
 ]
