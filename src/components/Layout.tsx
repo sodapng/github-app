@@ -1,13 +1,16 @@
 import cn from 'clsx'
+import { withRouter, WithRouterProperties } from 'hoc/withRouter'
 import { PureComponent } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 
-export class Layout extends PureComponent {
+export class Layout extends PureComponent<WithRouterProperties> {
   render() {
+    const { location } = this.props
+
     return (
-      <div className="flex min-h-screen flex-col">
-        <div className="shadow-md">
-          <header className="mx-auto flex items-center justify-between px-12 py-5 text-lg font-semibold text-slate-600">
+      <div className="relative min-h-screen">
+        <div className="fixed top-0 left-0 z-50 w-full">
+          <header className="mx-auto flex items-center justify-between bg-white px-12 py-5 text-lg font-semibold text-slate-600 shadow-sm">
             <nav className="grid grid-cols-2 divide-x rounded-md border text-center">
               <NavLink
                 to="/"
@@ -32,7 +35,7 @@ export class Layout extends PureComponent {
                 About
               </NavLink>
             </nav>
-            <p>Current page: test</p>
+            <p>Current page: {location.pathname}</p>
           </header>
         </div>
         <Outlet />
@@ -40,3 +43,5 @@ export class Layout extends PureComponent {
     )
   }
 }
+
+export const LayoutWithRouter = withRouter(Layout)
