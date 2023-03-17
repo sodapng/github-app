@@ -1,3 +1,9 @@
+import { Search } from 'components/Search'
+
 export function Main() {
-  return <h1 className="flex min-h-screen flex-col items-center justify-center">hello</h1>
+  return (
+    <div className="mx-auto mt-24 px-12">
+      <Search />
+    </div>
+  )
 }
