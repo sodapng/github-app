@@ -5,7 +5,7 @@ import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 import { routes } from 'routes'
 import { expect, test } from 'vitest'
 
-test('Search', () => {
+test('Проверяем компонент Search с помощью fireEvent для проверки изменения состояния при вводе 23', () => {
   render(<Search />)
   const input = screen.getByLabelText<HTMLInputElement>('search')
   expect(input).toBeInTheDocument()
@@ -13,7 +13,7 @@ test('Search', () => {
   expect(input.value).toBe('23')
 })
 
-test('Search 2', async () => {
+test('Тестируем переходы между страницами и сохранение значения ввода в localStorage', async () => {
   const user = userEvent.setup()
 
   const router = createMemoryRouter(routes, {
@@ -37,4 +37,5 @@ test('Search 2', async () => {
   await user.click(screen.getByText('About'))
   await user.click(screen.getByText('Home'))
   expect(input.value).toBe('sodapng')
+  expect(localStorage.getItem('searchValue')).toBe('sodapng')
 })

@@ -10,13 +10,13 @@ export class Search extends Component<PropertiesSearch, StateSearch> {
   constructor(properties: PropertiesSearch) {
     super(properties)
     this.state = {
-      value: localStorage.getItem('value') ?? '',
+      value: localStorage.getItem('searchValue') ?? '',
     }
   }
 
   componentWillUnmount() {
     const { value } = this.state
-    localStorage.setItem('value', value)
+    localStorage.setItem('searchValue', value)
   }
 
   handleChange = (event: ChangeEvent<HTMLInputElement>) => {
