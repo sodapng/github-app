@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Search } from 'components/Search'
+import { Search } from 'components'
 import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 import { routes } from 'routes'
 import { expect, test } from 'vitest'

@@ -1,4 +1,4 @@
-import { LayoutWithRouter } from 'components/Layout'
+import { LayoutWithRouter } from 'components'
 import { About, Main, NotFound } from 'pages'
 import { RouteObject } from 'react-router-dom'
 

@@ -3,7 +3,7 @@ import { withRouter, WithRouterProperties } from 'hoc/withRouter'
 import { PureComponent } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 
-export class Layout extends PureComponent<WithRouterProperties> {
+class Layout extends PureComponent<WithRouterProperties> {
   render() {
     const { location } = this.props
 
