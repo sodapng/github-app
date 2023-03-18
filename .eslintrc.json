@@ -24,6 +24,7 @@
   "rules": {
     "import/no-unresolved": "error",
     "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": "off",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "unicorn/filename-case": "off",
