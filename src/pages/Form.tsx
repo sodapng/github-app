@@ -1,5 +1,6 @@
 import { Checkbox, Input, InputFile, RadioGroup, Select } from 'components/Forms'
 import { Component, createRef, type FormEvent, type MutableRefObject } from 'react'
+import { getTodayDate } from 'utils/getTodayDate'
 import { z } from 'zod'
 
 const countries = ['Россия', 'Казахстан', 'США']
@@ -7,11 +8,6 @@ const genderOptions = [
   { id: 0, label: 'Male' },
   { id: 1, label: 'Female' },
 ]
-const today = new Intl.DateTimeFormat('fr-CA', {
-  year: 'numeric',
-  month: '2-digit',
-  day: '2-digit',
-}).format(Date.now())
 
 const FormSchema = z.object({
   username: z.string().min(3).max(20),
@@ -50,13 +46,6 @@ export class Form extends Component<Record<string, unknown>, FormState> {
   handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    this.setState({
-      _errors: [],
-      username: undefined,
-      birthdate: undefined,
-      sex: undefined,
-    })
-
     const formData = {
       username: this.usernameRef?.current?.value,
       birthdate: this.birthdateRef?.current?.value,
@@ -69,11 +58,20 @@ export class Form extends Component<Record<string, unknown>, FormState> {
     const validatedFormData = FormSchema.safeParse(formData)
 
     if (!validatedFormData.success) {
-      this.setState(validatedFormData.error.format())
+      this.setState({
+        username: undefined,
+        birthdate: undefined,
+        sex: undefined,
+        ...validatedFormData.error.format(),
+      })
+
       return
     }
 
     this.setState((previousState) => ({
+      username: undefined,
+      birthdate: undefined,
+      sex: undefined,
       cards: [...previousState.cards, validatedFormData.data],
     }))
   }
@@ -98,7 +96,7 @@ export class Form extends Component<Record<string, unknown>, FormState> {
             isInvalid={!!birthdate}
             errorMessage={birthdate?._errors.join(', ')}
             type="date"
-            max={today}
+            max={getTodayDate()}
             label="Date of birth"
             name="birthdate"
             forwardRef={this.birthdateRef}
