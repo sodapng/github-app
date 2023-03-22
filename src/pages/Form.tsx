@@ -1,12 +1,12 @@
-import { Checkbox } from 'components/Form/Checkbox'
-import { Input } from 'components/Form/Input'
-import { InputFile } from 'components/Form/InputFile'
-import { Radio } from 'components/Form/Radio'
-import { Select } from 'components/Form/Select'
-import { Component, createRef } from 'react'
+import { Checkbox, Input, InputFile, RadioGroup, Select } from 'components/Forms'
+import { Component, createRef, type FormEvent, type MutableRefObject } from 'react'
 import { z } from 'zod'
 
 const countries = ['Россия', 'Казахстан', 'США']
+const genderOptions = [
+  { id: 0, label: 'Male' },
+  { id: 1, label: 'Female' },
+]
 const today = new Intl.DateTimeFormat('fr-CA', {
   year: 'numeric',
   month: '2-digit',
@@ -22,7 +22,7 @@ const FormSchema = z.object({
   sex: z.enum(['Male', 'Female']),
 })
 
-type FormState = z.inferFormattedError<typeof FormSchema>
+type FormState = z.inferFormattedError<typeof FormSchema> & { cards: z.infer<typeof FormSchema>[] }
 
 export class Form extends Component<Record<string, unknown>, FormState> {
   private usernameRef = createRef<HTMLInputElement>()
@@ -35,18 +35,19 @@ export class Form extends Component<Record<string, unknown>, FormState> {
 
   private subscribeRef = createRef<HTMLInputElement>()
 
-  private sexMaleRef = createRef<HTMLInputElement>()
-
-  private sexFemaleRef = createRef<HTMLInputElement>()
+  private sexRef: MutableRefObject<HTMLInputElement[] | null> = createRef()
 
   constructor(properties: Record<string, string>) {
     super(properties)
     this.state = {
       _errors: [],
+      cards: [],
     }
+
+    this.sexRef.current = []
   }
 
-  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     this.setState({
@@ -62,25 +63,23 @@ export class Form extends Component<Record<string, unknown>, FormState> {
       country: this.countryRef?.current?.value,
       profilePicture: this.profilePictureRef?.current?.files?.[0],
       subscribe: this.subscribeRef?.current?.checked,
-      sex: (() => {
-        if (this.sexMaleRef.current?.checked && this.sexMaleRef.current.value === 'Male') {
-          return 'Male'
-        }
-        if (this.sexFemaleRef.current?.checked && this.sexFemaleRef.current.value === 'Female') {
-          return 'Female'
-        }
-      })(),
+      sex: this.sexRef.current?.find((element) => element.checked)?.value,
     }
 
     const validatedFormData = FormSchema.safeParse(formData)
 
     if (!validatedFormData.success) {
       this.setState(validatedFormData.error.format())
+      return
     }
+
+    this.setState((previousState) => ({
+      cards: [...previousState.cards, validatedFormData.data],
+    }))
   }
 
   render() {
-    const { username, birthdate, sex } = this.state
+    const { username, birthdate, sex, cards } = this.state
 
     return (
       <div className="mx-auto my-4 w-[300px]">
@@ -115,21 +114,13 @@ export class Form extends Component<Record<string, unknown>, FormState> {
             name="subscribe"
             forwardRef={this.subscribeRef}
           />
-          <div>
-            <div className="flex gap-4">
-              <Radio
-                label="Male"
-                name="sex"
-                forwardRef={this.sexMaleRef}
-              />
-              <Radio
-                label="Female"
-                name="sex"
-                forwardRef={this.sexFemaleRef}
-              />
-            </div>
-            {sex && <span className="block text-red-700">Error: {sex?._errors.join(', ')}</span>}
-          </div>
+          <RadioGroup
+            isInvalid={!!sex}
+            errorMessage={sex?._errors.join(', ')}
+            name="sex"
+            forwardRef={this.sexRef}
+            options={genderOptions}
+          />
           <InputFile
             label="Profile Picture"
             name="profilePicture"
@@ -142,6 +133,9 @@ export class Form extends Component<Record<string, unknown>, FormState> {
             Send
           </button>
         </form>
+        {cards.map((card) => (
+          <div key={`${card.username}${Math.random()}`}>{JSON.stringify(card)}</div>
+        ))}
       </div>
     )
   }

@@ -4,7 +4,7 @@ type InputProperties = {
   type?: 'text' | 'date'
   label: string
   name: string
-  forwardRef?: React.RefObject<HTMLInputElement>
+  forwardRef?: React.Ref<HTMLInputElement>
   isInvalid?: boolean
   errorMessage?: string
   max?: string

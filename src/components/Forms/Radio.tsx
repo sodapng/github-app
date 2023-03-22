@@ -3,7 +3,7 @@ import { PureComponent } from 'react'
 type RadioProperties = {
   label: string
   name: string
-  forwardRef?: React.RefObject<HTMLInputElement>
+  forwardRef?: React.Ref<HTMLInputElement>
 }
 
 export class Radio extends PureComponent<RadioProperties> {

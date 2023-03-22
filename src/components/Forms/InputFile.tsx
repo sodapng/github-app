@@ -4,7 +4,7 @@ type InputFileProperties = {
   label: string
   name: string
   required?: boolean
-  forwardRef?: React.RefObject<HTMLInputElement>
+  forwardRef?: React.Ref<HTMLInputElement>
 }
 
 export class InputFile extends PureComponent<InputFileProperties> {

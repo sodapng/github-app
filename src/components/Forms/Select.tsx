@@ -4,7 +4,7 @@ type SelectProperties = {
   label: string
   name: string
   required?: boolean
-  forwardRef?: React.RefObject<HTMLSelectElement>
+  forwardRef?: React.Ref<HTMLSelectElement>
   options: string[]
 }
 
