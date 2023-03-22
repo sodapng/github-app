@@ -1,5 +1,5 @@
 import { LayoutWithRouter } from 'components'
-import { About, Main, NotFound } from 'pages'
+import { About, Form, Main, NotFound } from 'pages'
 import { RouteObject } from 'react-router-dom'
 
 export const routes: RouteObject[] = [
@@ -10,6 +10,7 @@ export const routes: RouteObject[] = [
       { element: <Main />, index: true },
       { path: '*', element: <NotFound /> },
       { path: 'about', element: <About /> },
+      { path: 'form', element: <Form /> },
     ],
   },
 ]

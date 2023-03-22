@@ -37,7 +37,13 @@
       }
     ],
     "func-names": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "class-methods-use-this": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "react/require-default-props": "off",
+    "react/no-unused-state": "off",
+    "no-underscore-dangle": "off",
+    "consistent-return": "off"
   },
   "settings": {
     "import/resolver": {

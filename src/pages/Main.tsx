@@ -3,7 +3,7 @@ import cards from 'data/cards.json'
 
 export function Main() {
   return (
-    <div className="mx-auto mt-24 mb-4 min-h-screen px-12">
+    <div className="my-4 mx-auto min-h-screen px-12">
       <Search />
       <div className="flex flex-wrap gap-5">
         {cards.map(({ id, body, imgSrc, title }) => {
