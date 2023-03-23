@@ -19,6 +19,7 @@ export class Input extends PureComponent<InputProperties> {
         <label>
           <span className="text-gray-700">{label}</span>
           <input
+            data-testid="input"
             ref={forwardRef}
             className="form-input my-1 block w-full"
             type={type}

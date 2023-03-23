@@ -16,6 +16,7 @@ export class Select extends PureComponent<SelectProperties> {
       <label>
         <span className="text-gray-700">{label}</span>
         <select
+          data-testid="select"
           ref={forwardRef}
           className="form-select mt-1 block w-full"
           name={name}

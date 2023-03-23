@@ -14,6 +14,7 @@ export class Checkbox extends PureComponent<CheckboxProperties> {
     return (
       <label className="inline-flex items-center">
         <input
+          data-testid="input-checkbox"
           ref={forwardRef}
           className="form-checkbox"
           type="checkbox"

@@ -13,6 +13,7 @@ export class Radio extends PureComponent<RadioProperties> {
     return (
       <label className="inline-flex items-center">
         <input
+          data-testid="input-radio"
           ref={forwardRef}
           className="form-radio"
           type="radio"

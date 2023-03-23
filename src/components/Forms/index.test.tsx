@@ -87,7 +87,7 @@ test('Select', async () => {
   expect(screen.getByRole<HTMLOptionElement>('option', { name: 'США' }).selected).not.toBeTruthy()
 })
 
-test('Input', () => {
+test('Input Text', () => {
   render(
     <Input
       label="Username"
@@ -101,7 +101,7 @@ test('Input', () => {
   expect(inputElement.value).toBe('какой-то текст')
 })
 
-test('Input', async () => {
+test('Input File', async () => {
   const file = new File(['hello'], 'hello.png', { type: 'image/png' })
 
   render(
