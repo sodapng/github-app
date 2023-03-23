@@ -1,0 +1,6 @@
+{
+  "genderOptions": [
+    { "id": 0, "label": "Male" },
+    { "id": 1, "label": "Female" }
+  ]
+}

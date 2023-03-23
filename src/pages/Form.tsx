@@ -1,24 +1,22 @@
 import { Checkbox, Input, InputFile, RadioGroup, Select } from 'components/Forms'
+import { UserCard } from 'components/UserCard/UserCard'
+import { countries } from 'data/countries.json'
+import { genderOptions } from 'data/gender.json'
+import { UserCard as TUserCard, UserSchema as FormSchema } from 'models/User'
 import { Component, createRef, type FormEvent, type MutableRefObject } from 'react'
 import { getTodayDate } from 'utils/getTodayDate'
 import { z } from 'zod'
 
-const countries = ['Россия', 'Казахстан', 'США']
-const genderOptions = [
-  { id: 0, label: 'Male' },
-  { id: 1, label: 'Female' },
-]
+type FormState = z.inferFormattedError<typeof FormSchema> & { cards: TUserCard[] }
 
-const FormSchema = z.object({
-  username: z.string().min(3).max(20),
-  birthdate: z.coerce.date(),
-  country: z.string(),
-  profilePicture: z.custom<File>((v) => v instanceof File),
-  subscribe: z.boolean(),
-  sex: z.enum(['Male', 'Female']),
-})
-
-type FormState = z.inferFormattedError<typeof FormSchema> & { cards: z.infer<typeof FormSchema>[] }
+const initialStateForReset = {
+  username: undefined,
+  birthdate: undefined,
+  country: undefined,
+  profilePicture: undefined,
+  subscribe: undefined,
+  sex: undefined,
+}
 
 export class Form extends Component<Record<string, unknown>, FormState> {
   private usernameRef = createRef<HTMLInputElement>()
@@ -59,9 +57,7 @@ export class Form extends Component<Record<string, unknown>, FormState> {
 
     if (!validatedFormData.success) {
       this.setState({
-        username: undefined,
-        birthdate: undefined,
-        sex: undefined,
+        ...initialStateForReset,
         ...validatedFormData.error.format(),
       })
 
@@ -69,71 +65,78 @@ export class Form extends Component<Record<string, unknown>, FormState> {
     }
 
     this.setState((previousState) => ({
-      username: undefined,
-      birthdate: undefined,
-      sex: undefined,
+      ...initialStateForReset,
       cards: [...previousState.cards, validatedFormData.data],
     }))
+
+    event.currentTarget.reset()
   }
 
   render() {
     const { username, birthdate, sex, cards } = this.state
 
     return (
-      <div className="mx-auto my-4 w-[300px]">
-        <form
-          onSubmit={this.handleSubmit}
-          className="flex flex-col gap-4"
-        >
-          <Input
-            isInvalid={!!username}
-            errorMessage={username?._errors.join(', ')}
-            label="Username"
-            name="username"
-            forwardRef={this.usernameRef}
-          />
-          <Input
-            isInvalid={!!birthdate}
-            errorMessage={birthdate?._errors.join(', ')}
-            type="date"
-            max={getTodayDate()}
-            label="Date of birth"
-            name="birthdate"
-            forwardRef={this.birthdateRef}
-          />
-          <Select
-            forwardRef={this.countryRef}
-            label="Country"
-            name="country"
-            options={countries}
-          />
-          <Checkbox
-            label="Email me news and special offers"
-            name="subscribe"
-            forwardRef={this.subscribeRef}
-          />
-          <RadioGroup
-            isInvalid={!!sex}
-            errorMessage={sex?._errors.join(', ')}
-            name="sex"
-            forwardRef={this.sexRef}
-            options={genderOptions}
-          />
-          <InputFile
-            label="Profile Picture"
-            name="profilePicture"
-            forwardRef={this.profilePictureRef}
-          />
-          <button
-            className="border"
-            type="submit"
+      <div className="mx-auto px-12">
+        <div className="mx-auto my-4 w-1/3">
+          <form
+            onSubmit={this.handleSubmit}
+            className="flex flex-col gap-4"
           >
-            Send
-          </button>
-        </form>
-        {cards.map((card) => (
-          <div key={`${card.username}${Math.random()}`}>{JSON.stringify(card)}</div>
-        ))}
+            <Input
+              isInvalid={!!username}
+              errorMessage={username?._errors.join(', ')}
+              label="Username"
+              name="username"
+              forwardRef={this.usernameRef}
+            />
+            <Input
+              isInvalid={!!birthdate}
+              errorMessage={birthdate?._errors.join(', ')}
+              type="date"
+              max={getTodayDate()}
+              label="Date of birth"
+              name="birthdate"
+              forwardRef={this.birthdateRef}
+            />
+            <Select
+              forwardRef={this.countryRef}
+              label="Country"
+              name="country"
+              options={countries}
+            />
+            <Checkbox
+              label="Email me news and special offers"
+              name="subscribe"
+              forwardRef={this.subscribeRef}
+            />
+            <RadioGroup
+              isInvalid={!!sex}
+              errorMessage={sex?._errors.join(', ')}
+              name="sex"
+              forwardRef={this.sexRef}
+              options={genderOptions}
+            />
+            <InputFile
+              label="Profile Picture"
+              name="profilePicture"
+              forwardRef={this.profilePictureRef}
+            />
+            <button
+              className="border"
+              type="submit"
+            >
+              Send
+            </button>
+          </form>
+        </div>
+        <div className="my-4 flex flex-wrap gap-4">
+          {cards.map((card) => (
+            <UserCard
+              key={Math.random()}
+              data={card}
+            />
+          ))}
+        </div>
       </div>
     )
   }

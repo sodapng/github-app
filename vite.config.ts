@@ -16,9 +16,9 @@ export default defineConfig({
       enabled: true,
       provider: 'c8',
       all: true,
-      // reporter: 'text',
+      reporter: 'text',
       src: ['src'],
     },
-    // watch: false,
+    watch: false,
   },
 })
