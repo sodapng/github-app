@@ -73,7 +73,7 @@ export class Form extends Component<Record<string, unknown>, FormState> {
   }
 
   render() {
-    const { username, birthdate, sex, cards } = this.state
+    const { username, birthdate, sex, cards, profilePicture } = this.state
 
     return (
       <div className="mx-auto px-12">
@@ -117,6 +117,8 @@ export class Form extends Component<Record<string, unknown>, FormState> {
               options={genderOptions}
             />
             <InputFile
+              isInvalid={!!profilePicture}
+              errorMessage={profilePicture?._errors.join(', ')}
               label="Profile Picture"
               name="profilePicture"
               forwardRef={this.profilePictureRef}
