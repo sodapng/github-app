@@ -10,15 +10,15 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   test: {
     globals: true,
-    environment: 'happy-dom',
+    environment: 'jsdom',
     setupFiles: './src/__tests__/setupTests.ts',
     coverage: {
       enabled: true,
       provider: 'c8',
       all: true,
-      reporter: 'text',
+      // reporter: 'text',
       src: ['src'],
     },
-    watch: false,
+    // watch: false,
   },
 })

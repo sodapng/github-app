@@ -38,6 +38,7 @@ specifiers:
   react: ^18.2.0
   react-dom: ^18.2.0
   react-router-dom: ^6.9.0
+  react-select-event: ^5.5.1
   tailwindcss: ^3.2.7
   typescript: ^4.9.5
   vite: ^4.1.4
@@ -85,6 +86,7 @@ devDependencies:
   postcss: 8.4.21
   prettier: 2.8.4
   prettier-plugin-tailwindcss: 0.2.4_prettier@2.8.4
+  react-select-event: 5.5.1
   tailwindcss: 3.2.7_postcss@8.4.21
   typescript: 4.9.5
   vite: 4.1.4
@@ -3768,6 +3770,12 @@ packages:
       '@remix-run/router': 1.4.0
       react: 18.2.0
     dev: false
+
+  /react-select-event/5.5.1:
+    resolution: {integrity: sha512-goAx28y0+iYrbqZA2FeRTreHHs/ZtSuKxtA+J5jpKT5RHPCbVZJ4MqACfPnWyFXsEec+3dP5bCrNTxIX8oYe9A==}
+    dependencies:
+      '@testing-library/dom': 9.0.1
+    dev: true
 
   /react/18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
