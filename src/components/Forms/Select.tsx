@@ -25,14 +25,19 @@ export class Select extends PureComponent<SelectProperties> {
           >
             <option
               disabled
-              defaultValue={label}
+              value={label}
               hidden
               className="text-gray-700"
             >
               {label}
             </option>
-            {options.map((option) => (
-              <option key={option}>{option}</option>
+            {options.map((value) => (
+              <option
+                key={value}
+                value={value}
+              >
+                {value}
+              </option>
             ))}
           </select>
         </label>
