@@ -73,7 +73,7 @@ export class Form extends Component<Record<string, unknown>, FormState> {
   }
 
   render() {
-    const { username, birthdate, sex, cards, profilePicture } = this.state
+    const { username, birthdate, sex, cards, profilePicture, country } = this.state
 
     return (
       <div className="mx-auto px-12">
@@ -98,6 +98,8 @@ export class Form extends Component<Record<string, unknown>, FormState> {
               forwardRef={this.birthdateRef}
             />
             <Select
+              isInvalid={!!country}
+              errorMessage={convertErrorsToString(country)}
               forwardRef={this.countryRef}
               label="Country"
               name="country"
@@ -123,7 +125,7 @@ export class Form extends Component<Record<string, unknown>, FormState> {
               forwardRef={this.profilePictureRef}
             />
             <button
-              className="border"
+              className="rounded-md border px-6 py-2 text-lg font-semibold text-slate-600 hover:bg-slate-50"
               type="submit"
             >
               Send

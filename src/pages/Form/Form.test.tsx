@@ -67,7 +67,7 @@ test('Form page', async () => {
   await user.click(sendButton)
   expect(
     screen.getByText(
-      'Error: You can use the characters a-z, A-Z, 0-9 and underscore, String must contain at least 5 character(s)',
+      'Error: Invalid username, You can use the characters a-z, A-Z, 0-9 and underscore, String must contain at least 5 character(s)',
     ),
   ).toBeInTheDocument()
 })

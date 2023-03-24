@@ -79,7 +79,7 @@ test('Select', async () => {
 
   const user = userEvent.setup()
 
-  const selectElement = screen.getByLabelText('Country')
+  const selectElement = screen.getByTestId('select')
   expect(selectElement).toBeInTheDocument()
   await user.selectOptions(selectElement, 'США')
   expect(screen.getByRole<HTMLOptionElement>('option', { name: 'США' }).selected).toBeTruthy()
