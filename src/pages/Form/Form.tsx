@@ -1,4 +1,4 @@
-import { Checkbox, Input, InputFile, RadioGroup, Select } from 'components/Forms'
+import { Checkbox, DatePicker, Input, InputFile, RadioGroup, Select } from 'components/Forms'
 import { UserCard } from 'components/UserCard/UserCard'
 import { countries } from 'data/countries.json'
 import { genderOptions } from 'data/gender.json'
@@ -89,10 +89,9 @@ export class Form extends Component<Record<string, unknown>, FormState> {
               name="username"
               forwardRef={this.usernameRef}
             />
-            <Input
+            <DatePicker
               isInvalid={!!birthdate}
               errorMessage={convertErrorsToString(birthdate)}
-              type="date"
               max={getTodayDate()}
               label="Date of birth"
               name="birthdate"

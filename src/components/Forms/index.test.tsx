@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { expect, test } from 'vitest'
 
 import { Checkbox } from './Checkbox'
+import { DatePicker } from './DatePicker'
 import { Input } from './Input'
 import { InputFile } from './InputFile'
 import { Radio } from './Radio'
@@ -88,6 +89,8 @@ test('Select', async () => {
 })
 
 test('Input Text', () => {
+  const value = 'какой-то текст'
+
   render(
     <Input
       label="Username"
@@ -97,8 +100,24 @@ test('Input Text', () => {
 
   const inputElement = screen.getByLabelText<HTMLInputElement>('Username')
   expect(inputElement).toBeInTheDocument()
-  fireEvent.change(inputElement, { target: { value: 'какой-то текст' } })
-  expect(inputElement.value).toBe('какой-то текст')
+  fireEvent.change(inputElement, { target: { value } })
+  expect(inputElement.value).toBe(value)
+})
+
+test('DatePicker', () => {
+  const value = '1995-02-15'
+
+  render(
+    <DatePicker
+      label="Date of birth"
+      name="birthdate"
+    />,
+  )
+
+  const inputElement = screen.getByLabelText<HTMLInputElement>('Date of birth')
+  expect(inputElement).toBeInTheDocument()
+  fireEvent.change(inputElement, { target: { value } })
+  expect(inputElement.value).toBe(value)
 })
 
 test('Input File', async () => {

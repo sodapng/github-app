@@ -65,5 +65,9 @@ test('Form page', async () => {
   expect(screen.getAllByRole('img').length).toBe(userCards.length)
 
   await user.click(sendButton)
-  expect(screen.getByText('Error: String must contain at least 3 character(s)')).toBeInTheDocument()
+  expect(
+    screen.getByText(
+      'Error: You can use the characters a-z, A-Z, 0-9 and underscore, String must contain at least 5 character(s)',
+    ),
+  ).toBeInTheDocument()
 })
