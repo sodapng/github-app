@@ -4,7 +4,7 @@ import { countries } from 'data/countries.json'
 import { genderOptions } from 'data/gender.json'
 import { UserCard as TUserCard, UserSchema as FormSchema } from 'models/User'
 import { Component, createRef, type FormEvent, type MutableRefObject } from 'react'
-import { getTodayDate } from 'utils/getTodayDate'
+import { convertErrorsToString, getTodayDate } from 'utils'
 import { z } from 'zod'
 
 type FormState = z.inferFormattedError<typeof FormSchema> & { cards: TUserCard[] }
@@ -84,14 +84,14 @@ export class Form extends Component<Record<string, unknown>, FormState> {
           >
             <Input
               isInvalid={!!username}
-              errorMessage={username?._errors.join(', ')}
+              errorMessage={convertErrorsToString(username)}
               label="Username"
               name="username"
               forwardRef={this.usernameRef}
             />
             <Input
               isInvalid={!!birthdate}
-              errorMessage={birthdate?._errors.join(', ')}
+              errorMessage={convertErrorsToString(birthdate)}
               type="date"
               max={getTodayDate()}
               label="Date of birth"
@@ -111,14 +111,14 @@ export class Form extends Component<Record<string, unknown>, FormState> {
             />
             <RadioGroup
               isInvalid={!!sex}
-              errorMessage={sex?._errors.join(', ')}
+              errorMessage={convertErrorsToString(sex)}
               name="sex"
               forwardRef={this.sexRef}
               options={genderOptions}
             />
             <InputFile
               isInvalid={!!profilePicture}
-              errorMessage={profilePicture?._errors.join(', ')}
+              errorMessage={convertErrorsToString(profilePicture)}
               label="Profile Picture"
               name="profilePicture"
               forwardRef={this.profilePictureRef}
