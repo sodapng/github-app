@@ -43,10 +43,8 @@ test('Form page', async () => {
     fireEvent.change(username, { target: { value: userCard.userame } })
     fireEvent.change(birthdate, { target: { value: userCard.brithdate } })
     await user.selectOptions(country, userCard.country)
+    await user.click(subscribe)
     await user.upload(profilePicture, userCard.profilePicture)
-    if (userCard.subscribe) {
-      await user.click(subscribe)
-    }
 
     if (userCard.sex === 'Male') {
       await user.click(male)

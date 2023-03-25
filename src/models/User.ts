@@ -10,7 +10,7 @@ export const UserSchema = z.object({
   birthdate: z.coerce.date(),
   country: z.string().refine((argument) => argument !== 'Country', 'Required'),
   profilePicture: z.custom<File>((file) => file instanceof File),
-  subscribe: z.boolean(),
+  subscribe: z.boolean().refine((argument) => argument, 'Required'),
   sex: z.string(),
 })
 

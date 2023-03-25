@@ -86,7 +86,7 @@ export class Form extends Component<Record<string, unknown>, FormState> {
   }
 
   render() {
-    const { username, birthdate, sex, cards, profilePicture, country } = this.state
+    const { username, birthdate, sex, cards, profilePicture, country, subscribe } = this.state
 
     return (
       <div className="mx-auto px-12">
@@ -119,6 +119,8 @@ export class Form extends Component<Record<string, unknown>, FormState> {
               options={countries}
             />
             <Checkbox
+              isInvalid={!!subscribe}
+              errorMessage={convertErrorsToString(subscribe)}
               label="Email me news and special offers"
               name="subscribe"
               forwardRef={this.subscribeRef}
