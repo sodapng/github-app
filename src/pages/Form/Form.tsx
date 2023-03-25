@@ -1,9 +1,12 @@
+import 'react-toastify/dist/ReactToastify.css'
+
 import { Checkbox, DatePicker, Input, InputFile, RadioGroup, Select } from 'components/Forms'
 import { UserCard } from 'components/UserCard/UserCard'
 import { countries } from 'data/countries.json'
 import { genderOptions } from 'data/gender.json'
 import { UserCard as TUserCard, UserSchema as FormSchema } from 'models/User'
 import { Component, createRef, type FormEvent, type MutableRefObject } from 'react'
+import { toast, ToastContainer } from 'react-toastify'
 import { convertErrorsToString, getTodayDate } from 'utils'
 import { z } from 'zod'
 
@@ -69,6 +72,16 @@ export class Form extends Component<Record<string, unknown>, FormState> {
       cards: [...previousState.cards, validatedFormData.data],
     }))
 
+    toast.success('🦄 Wow so easy!', {
+      position: 'bottom-center',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    })
     event.currentTarget.reset()
   }
 
@@ -132,7 +145,7 @@ export class Form extends Component<Record<string, unknown>, FormState> {
             </button>
           </form>
         </div>
-        <div className="my-4 flex flex-wrap gap-4">
+        <div className="my-6 flex flex-wrap gap-4">
           {cards.map((card) => (
             <UserCard
               key={Math.random()}
@@ -140,6 +153,7 @@ export class Form extends Component<Record<string, unknown>, FormState> {
             />
           ))}
         </div>
+        <ToastContainer />
       </div>
     )
   }
