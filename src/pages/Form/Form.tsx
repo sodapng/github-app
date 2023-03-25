@@ -72,7 +72,7 @@ export class Form extends Component<Record<string, unknown>, FormState> {
       cards: [...previousState.cards, validatedFormData.data],
     }))
 
-    toast.success('🦄 Wow so easy!', {
+    toast.success('🦄 Card successfully created!', {
       position: 'bottom-center',
       autoClose: 3000,
       hideProgressBar: false,
