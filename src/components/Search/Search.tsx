@@ -1,41 +1,24 @@
-import { ChangeEvent, Component } from 'react'
+import { useUnmount } from 'hooks'
+import { ChangeEvent, useState } from 'react'
 
-type PropertiesSearch = Record<string, string>
+export function Search() {
+  const [value, setValue] = useState(localStorage.getItem('searchValue') ?? '')
 
-type StateSearch = {
-  value: string
-}
-
-export class Search extends Component<PropertiesSearch, StateSearch> {
-  constructor(properties: PropertiesSearch) {
-    super(properties)
-    this.state = {
-      value: localStorage.getItem('searchValue') ?? '',
-    }
-  }
-
-  componentWillUnmount() {
-    const { value } = this.state
+  useUnmount(() => {
     localStorage.setItem('searchValue', value)
+  })
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value)
   }
 
-  handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      value: event.target.value,
-    })
-  }
-
-  render() {
-    const { value } = this.state
-
-    return (
-      <input
-        aria-label="search"
-        className="mb-3 w-72 appearance-none rounded-md border px-3 py-1 outline-none focus-within:border-violet-500 focus-within:ring focus-within:ring-violet-300 focus-within:ring-offset-1"
-        type="search"
-        onChange={this.handleChange}
-        value={value}
-      />
-    )
-  }
+  return (
+    <input
+      aria-label="search"
+      className="mb-3 w-72 appearance-none rounded-md border px-3 py-1 outline-none focus-within:border-violet-500 focus-within:ring focus-within:ring-violet-300 focus-within:ring-offset-1"
+      type="search"
+      onChange={handleChange}
+      value={value}
+    />
+  )
 }
