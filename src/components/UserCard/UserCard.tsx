@@ -24,7 +24,7 @@ export class UserCard extends PureComponent<UserCardProperties> {
             alt={image}
           />
         </div>
-        <span className="font-semibold line-clamp-1">{username}</span>
+        <span className="line-clamp-1 font-semibold">{username}</span>
         <span>{sex}</span>
         <span>{birthdate.toLocaleDateString()}</span>
         <span>{country}</span>

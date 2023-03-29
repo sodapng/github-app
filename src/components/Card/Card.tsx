@@ -16,7 +16,7 @@ export function Card({ body, imgSrc, title }: CardProperties) {
           alt={imgSrc}
         />
       </div>
-      <h5 className="font-semibold line-clamp-1">{title}</h5>
+      <h5 className="line-clamp-1 font-semibold">{title}</h5>
       <p className="line-clamp-4">{body}</p>
     </div>
   )
