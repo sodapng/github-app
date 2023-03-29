@@ -1,3 +1,4 @@
-export { Card } from 'components/Card/Card'
-export { LayoutWithRouter } from 'components/Layout'
-export { Search } from 'components/Search/Search'
+export * from 'components/Card/Card'
+export * from 'components/Layout'
+export * from 'components/Search/Search'
+export * from 'components/UserCard/UserCard'

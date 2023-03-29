@@ -38,7 +38,6 @@ test('Form page', async () => {
   const [male, female] = screen.getAllByTestId<HTMLInputElement>('input-radio')
   const sendButton = screen.getByRole('button')
 
-  // eslint-disable-next-line no-restricted-syntax
   for await (const userCard of userCards) {
     fireEvent.change(username, { target: { value: userCard.userame } })
     fireEvent.change(birthdate, { target: { value: userCard.brithdate } })

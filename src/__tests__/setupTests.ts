@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom'
 
 import { fetch, Request, Response } from '@remix-run/web-fetch'
+import { AbortController as NodeAbortController } from 'abort-controller'
 
 if (!globalThis.fetch) {
   // Built-in lib.dom.d.ts expects `fetch(Request | string, ...)` but the web
@@ -14,4 +15,9 @@ if (!globalThis.fetch) {
   // web-std/fetch Response does not currently implement Response.error()
   // @ts-expect-error
   globalThis.Response = Response
+}
+
+if (!globalThis.AbortController) {
+  // @ts-expect-error
+  globalThis.AbortController = NodeAbortController
 }

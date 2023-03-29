@@ -1,7 +1,7 @@
 import 'react-toastify/dist/ReactToastify.css'
 
+import { UserCard } from 'components'
 import { Checkbox, DatePicker, Input, InputFile, RadioGroup, Select } from 'components/Forms'
-import { UserCard } from 'components/UserCard/UserCard'
 import { countries } from 'data/countries.json'
 import { genderOptions } from 'data/gender.json'
 import { UserCard as TUserCard, UserSchema as FormSchema } from 'models/User'

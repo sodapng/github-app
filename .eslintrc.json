@@ -6,10 +6,14 @@
     "jest": true
   },
   "extends": [
-    "airbnb",
-    "airbnb-typescript",
-    "airbnb/hooks",
+    "eslint:recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:react/recommended",
     "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:sonarjs/recommended",
     "plugin:unicorn/recommended",
     "plugin:prettier/recommended"
@@ -22,9 +26,7 @@
   },
   "plugins": ["simple-import-sort"],
   "rules": {
-    "import/no-unresolved": "error",
-    "import/prefer-default-export": "off",
-    "import/no-extraneous-dependencies": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "unicorn/filename-case": "off",
@@ -35,19 +37,14 @@
           "env": false
         }
       }
-    ],
-    "func-names": "off",
-    "react/jsx-props-no-spreading": "off",
-    "class-methods-use-this": "off",
-    "jsx-a11y/label-has-associated-control": "off",
-    "react/require-default-props": "off",
-    "react/no-unused-state": "off",
-    "no-underscore-dangle": "off",
-    "consistent-return": "off"
+    ]
   },
   "settings": {
     "import/resolver": {
       "typescript": {}
+    },
+    "react": {
+      "version": "detect"
     }
   }
 }

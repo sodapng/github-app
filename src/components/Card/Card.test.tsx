@@ -16,7 +16,7 @@ test('Компонент Card отображает заголовок и изо�
 
   expect(screen.getByText(title)).toBeInTheDocument()
 
-  const testImage = screen.getByRole('img', { name: 'image' }) as HTMLImageElement
+  const testImage = screen.getByRole<HTMLInputElement>('img', { name: 'image' })
 
   expect(testImage.src).toContain(imgSrc)
 })
@@ -37,9 +37,8 @@ test('Компонент Card отображает изображение пра
     </>,
   )
 
-  // eslint-disable-next-line no-restricted-syntax
   for (const { imgSrc } of cards) {
-    const testImage = screen.getByAltText(imgSrc) as HTMLImageElement
+    const testImage = screen.getByAltText<HTMLImageElement>(imgSrc)
     expect(testImage.src).toContain(imgSrc)
   }
 

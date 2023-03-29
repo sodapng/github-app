@@ -10,7 +10,7 @@ import { Radio } from './Radio'
 import { RadioGroup } from './RadioGroup'
 import { Select } from './Select'
 
-test('Checkbox', async () => {
+test('Checkbox', () => {
   render(
     <Checkbox
       label="Подписаться на рассылку"
