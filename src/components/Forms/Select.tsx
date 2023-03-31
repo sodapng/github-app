@@ -1,48 +1,52 @@
-import { PureComponent } from 'react'
+import { ErrorMessage } from '@hookform/error-message'
+import { FieldValues, Path, RegisterOptions, UseFormRegister } from 'react-hook-form'
 
-type SelectProperties = {
+type SelectProperties<TFormValues extends FieldValues> = {
   label: string
-  name: string
-  forwardRef?: React.Ref<HTMLSelectElement>
-  options: string[]
-  isInvalid?: boolean
-  errorMessage?: string
+  name: Path<TFormValues>
+  errors: Record<string, unknown>
+  register: UseFormRegister<TFormValues>
+  rules?: RegisterOptions
+  options: Array<{ id: number; label: string; value: string }>
 }
 
-export class Select extends PureComponent<SelectProperties> {
-  render() {
-    const { label, name, options = [], forwardRef, errorMessage, isInvalid } = this.props
-
-    return (
-      <div>
-        <label>
-          <select
-            data-testid="select"
-            ref={forwardRef}
-            className="form-select mt-1 block w-full"
-            name={name}
-            defaultValue={label}
+export const Select = <TFormValues extends FieldValues>({
+  errors,
+  label,
+  name,
+  register,
+  rules,
+  options,
+}: SelectProperties<TFormValues>) => {
+  return (
+    <div>
+      <select
+        {...register(name, rules)}
+        defaultValue=""
+        data-testid="select"
+        className="form-select mt-1 block w-full cursor-pointer"
+      >
+        <option
+          value=""
+          disabled
+          hidden
+        >
+          {label}
+        </option>
+        {options.map(({ id, label, value }) => (
+          <option
+            key={id}
+            value={label}
           >
-            <option
-              disabled
-              value={label}
-              hidden
-              className="text-gray-700"
-            >
-              {label}
-            </option>
-            {options.map((value) => (
-              <option
-                key={value}
-                value={value}
-              >
-                {value}
-              </option>
-            ))}
-          </select>
-        </label>
-        {isInvalid && <span className="block text-red-700">Error: {errorMessage}</span>}
-      </div>
-    )
-  }
+            {value}
+          </option>
+        ))}
+      </select>
+      <ErrorMessage
+        errors={errors}
+        name={name}
+        render={({ message }) => <span className="text-red-700">Error: {message}</span>}
+      />
+    </div>
+  )
 }

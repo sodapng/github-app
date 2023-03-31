@@ -1,38 +1,41 @@
+import { ErrorMessage } from '@hookform/error-message'
 import { Radio } from 'components/Forms/Radio'
-import { type MutableRefObject, PureComponent } from 'react'
+import { FieldValues, Path, RegisterOptions, UseFormRegister } from 'react-hook-form'
 
-type RadioGroupProperties = {
-  name: string
-  options: Array<{ id: number; label: string }>
-  isInvalid?: boolean
-  errorMessage?: string
-  forwardRef?: MutableRefObject<HTMLInputElement[] | null>
+type RadioGroupProperties<TFormValues extends FieldValues> = {
+  name: Path<TFormValues>
+  errors: Record<string, unknown>
+  register: UseFormRegister<TFormValues>
+  rules?: RegisterOptions
+  options: Array<{ id: number; label: string; value: string }>
 }
 
-export class RadioGroup extends PureComponent<RadioGroupProperties> {
-  render() {
-    const { name, options, forwardRef, isInvalid, errorMessage } = this.props
-
-    return (
-      <div>
-        <div className="flex gap-4">
-          {options.map(({ id, label }, index) => {
-            return (
-              <Radio
-                key={id}
-                label={label}
-                name={name}
-                forwardRef={(element) => {
-                  if (element && forwardRef?.current) {
-                    forwardRef.current[index] = element
-                  }
-                }}
-              />
-            )
-          })}
-        </div>
-        {isInvalid && <span className="block text-red-700">Error: {errorMessage}</span>}
+export const RadioGroup = <TFormValues extends FieldValues>({
+  errors,
+  name,
+  options,
+  register,
+  rules,
+}: RadioGroupProperties<TFormValues>) => {
+  return (
+    <div>
+      <div className="flex gap-4">
+        {options.map(({ id, label, value }) => {
+          return (
+            <Radio
+              key={id}
+              label={label}
+              value={value}
+              {...register(name, rules)}
+            />
+          )
+        })}
       </div>
-    )
-  }
+      <ErrorMessage
+        errors={errors}
+        name={name}
+        render={({ message }) => <span className="text-red-700">Error: {message}</span>}
+      />
+    </div>
+  )
 }

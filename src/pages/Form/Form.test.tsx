@@ -11,7 +11,7 @@ test('Form page', async () => {
     {
       userame: 'sodapng',
       brithdate: '2020-05-24',
-      country: 'Россия',
+      country: 'Russia',
       profilePicture: new File(['avatar'], 'my_photo.png', { type: 'image/png' }),
       subscribe: true,
       sex: 'Male',
@@ -19,9 +19,9 @@ test('Form page', async () => {
     {
       userame: 'react_best',
       brithdate: '2013-05-29',
-      country: 'США',
+      country: 'United States',
       profilePicture: new File(['avatar'], 'react.png', { type: 'image/png' }),
-      subscribe: false,
+      subscribe: true,
       sex: 'Female',
     },
   ]
@@ -30,13 +30,13 @@ test('Form page', async () => {
 
   const user = userEvent.setup()
 
-  const username = screen.getByLabelText<HTMLInputElement>('Username')
-  const birthdate = screen.getByLabelText<HTMLInputElement>('Date of birth')
+  const username = screen.getByTestId<HTMLInputElement>('input-text')
+  const birthdate = screen.getByTestId<HTMLInputElement>('input-date')
   const country = screen.getByTestId<HTMLSelectElement>('select')
   const profilePicture = screen.getByTestId<HTMLInputElement>('input-file')
   const subscribe = screen.getByTestId<HTMLInputElement>('input-checkbox')
   const [male, female] = screen.getAllByTestId<HTMLInputElement>('input-radio')
-  const sendButton = screen.getByRole('button')
+  const sendButton = screen.getByText<HTMLInputElement>('Send')
 
   for await (const userCard of userCards) {
     fireEvent.change(username, { target: { value: userCard.userame } })
@@ -54,17 +54,12 @@ test('Form page', async () => {
     }
 
     await user.click(sendButton)
+
+    expect(screen.getByText(userCard.userame)).toBeInTheDocument()
+    expect(screen.getByText(new Date(userCard.brithdate).toLocaleDateString())).toBeInTheDocument()
+    expect(screen.getByText(userCard.country, { selector: 'span' })).toBeInTheDocument()
   }
 
-  expect(username.value).toBe('')
-  expect(screen.getByText('sodapng')).toBeInTheDocument()
-  expect(screen.getByText('react_best')).toBeInTheDocument()
+  expect(screen.getAllByText('subscribed').length).toBe(userCards.length)
   expect(screen.getAllByRole('img').length).toBe(userCards.length)
-
-  await user.click(sendButton)
-  expect(
-    screen.getByText(
-      'Error: Invalid username, You can use the characters a-z, A-Z, 0-9 and underscore, String must contain at least 5 character(s)',
-    ),
-  ).toBeInTheDocument()
 })

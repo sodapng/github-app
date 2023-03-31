@@ -1,27 +1,27 @@
-import { PureComponent } from 'react'
+import { forwardRef } from 'react'
 
 type RadioProperties = {
   label: string
-  name: string
-  forwardRef?: React.Ref<HTMLInputElement>
-}
+  value: string
+} & Omit<
+  React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+  'value'
+>
 
-export class Radio extends PureComponent<RadioProperties> {
-  render() {
-    const { label, name, forwardRef } = this.props
-
+// eslint-disable-next-line react/display-name
+export const Radio = forwardRef<HTMLInputElement, RadioProperties>(
+  ({ label, ...properties }, reference) => {
     return (
-      <label className="inline-flex items-center">
+      <label className="inline-flex cursor-pointer items-center">
         <input
+          ref={reference}
+          {...properties}
           data-testid="input-radio"
-          ref={forwardRef}
           className="form-radio"
           type="radio"
-          name={name}
-          defaultValue={label}
         />
         <span className="ml-2 text-gray-700">{label}</span>
       </label>
     )
-  }
-}
+  },
+)

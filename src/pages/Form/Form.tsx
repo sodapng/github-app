@@ -1,162 +1,137 @@
-import 'react-toastify/dist/ReactToastify.css'
+import { type TUserCard, UserCard } from 'components'
+import {
+  Checkbox,
+  DatePicker,
+  Input,
+  InputFile,
+  RadioGroup,
+  Select,
+  Submit,
+} from 'components/Forms'
+import countriesOptions from 'data/countries.json'
+import genderOptions from 'data/gender.json'
+import { useEffect, useState } from 'react'
+import { type SubmitHandler, useForm } from 'react-hook-form'
+import { formatUserCardData, getTodayDate } from 'utils'
 
-import { UserCard } from 'components'
-import { Checkbox, DatePicker, Input, InputFile, RadioGroup, Select } from 'components/Forms'
-import { countries } from 'data/countries.json'
-import { genderOptions } from 'data/gender.json'
-import { UserCard as TUserCard, UserSchema as FormSchema } from 'models/User'
-import { Component, createRef, type FormEvent, type MutableRefObject } from 'react'
-import { toast, ToastContainer } from 'react-toastify'
-import { convertErrorsToString, getTodayDate } from 'utils'
-import { z } from 'zod'
-
-type FormState = z.inferFormattedError<typeof FormSchema> & { cards: TUserCard[] }
-
-const initialStateForReset = {
-  username: undefined,
-  birthdate: undefined,
-  country: undefined,
-  profilePicture: undefined,
-  subscribe: undefined,
-  sex: undefined,
+export type FormFields = {
+  username: string
+  birthdate: string
+  country: string
+  profilePicture: FileList
+  subscribe: boolean
+  sex: string
 }
 
-export class Form extends Component<Record<string, unknown>, FormState> {
-  private usernameRef = createRef<HTMLInputElement>()
+export function Form() {
+  const [cards, setCards] = useState<TUserCard[]>([])
 
-  private birthdateRef = createRef<HTMLInputElement>()
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm<FormFields>({
+    mode: 'onChange',
+  })
 
-  private countryRef = createRef<HTMLSelectElement>()
+  useEffect(() => {
+    reset()
+  }, [reset, isSubmitSuccessful])
 
-  private profilePictureRef = createRef<HTMLInputElement>()
-
-  private subscribeRef = createRef<HTMLInputElement>()
-
-  private sexRef: MutableRefObject<HTMLInputElement[] | null> = createRef()
-
-  constructor(properties: Record<string, string>) {
-    super(properties)
-    this.state = {
-      _errors: [],
-      cards: [],
-    }
-
-    this.sexRef.current = []
-  }
-
-  handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    const formData = {
-      username: this.usernameRef?.current?.value,
-      birthdate: this.birthdateRef?.current?.value,
-      country: this.countryRef?.current?.value,
-      profilePicture: this.profilePictureRef?.current?.files?.[0],
-      subscribe: this.subscribeRef?.current?.checked,
-      sex: this.sexRef.current?.find((element) => element.checked)?.value,
-    }
-
-    const validatedFormData = FormSchema.safeParse(formData)
-
-    if (!validatedFormData.success) {
-      this.setState({
-        ...initialStateForReset,
-        ...validatedFormData.error.format(),
-      })
-
-      return
-    }
-
-    this.setState((previousState) => ({
-      ...initialStateForReset,
-      cards: [...previousState.cards, validatedFormData.data],
-    }))
-
-    toast.success('🦄 Card successfully created!', {
-      position: 'bottom-center',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'light',
+  const onSubmit: SubmitHandler<FormFields> = (data) => {
+    setCards((previous) => {
+      return [...previous, formatUserCardData(data)]
     })
-    event.currentTarget.reset()
   }
 
-  render() {
-    const { username, birthdate, sex, cards, profilePicture, country, subscribe } = this.state
-
-    return (
-      <div className="mx-auto px-12">
-        <div className="mx-auto my-4 w-1/3">
-          <form
-            onSubmit={this.handleSubmit}
-            className="flex flex-col gap-4"
-          >
-            <Input
-              isInvalid={!!username}
-              errorMessage={convertErrorsToString(username)}
-              label="Username"
-              name="username"
-              forwardRef={this.usernameRef}
-            />
-            <DatePicker
-              isInvalid={!!birthdate}
-              errorMessage={convertErrorsToString(birthdate)}
-              max={getTodayDate()}
-              label="Date of birth"
-              name="birthdate"
-              forwardRef={this.birthdateRef}
-            />
-            <Select
-              isInvalid={!!country}
-              errorMessage={convertErrorsToString(country)}
-              forwardRef={this.countryRef}
-              label="Country"
-              name="country"
-              options={countries}
-            />
-            <Checkbox
-              isInvalid={!!subscribe}
-              errorMessage={convertErrorsToString(subscribe)}
-              label="Email me news and special offers"
-              name="subscribe"
-              forwardRef={this.subscribeRef}
-            />
-            <RadioGroup
-              isInvalid={!!sex}
-              errorMessage={convertErrorsToString(sex)}
-              name="sex"
-              forwardRef={this.sexRef}
-              options={genderOptions}
-            />
-            <InputFile
-              isInvalid={!!profilePicture}
-              errorMessage={convertErrorsToString(profilePicture)}
-              label="Profile Picture"
-              name="profilePicture"
-              forwardRef={this.profilePictureRef}
-            />
-            <button
-              className="rounded-md border px-6 py-2 text-lg font-semibold text-slate-600 hover:bg-slate-50"
-              type="submit"
-            >
-              Send
-            </button>
-          </form>
-        </div>
-        <div className="my-6 flex flex-wrap gap-4">
-          {cards.map((card) => (
-            <UserCard
-              key={Math.random()}
-              data={card}
-            />
-          ))}
-        </div>
-        <ToastContainer />
+  return (
+    <div className="mx-auto px-12">
+      <div className="mx-auto my-4 w-1/3">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-4"
+          data-testid="form"
+        >
+          <Input
+            label="Username"
+            name="username"
+            register={register}
+            errors={errors}
+            rules={{
+              required: 'Required',
+              minLength: {
+                value: 5,
+                message: 'String must contain at least 5 character(s)',
+              },
+              maxLength: {
+                value: 32,
+                message: 'String must contain at most 32 character(s)',
+              },
+              pattern: {
+                value: /^[A-Za-z]\w+$/,
+                message: 'You can use the characters A-Z, a-z, 0-9 and underscore',
+              },
+            }}
+          />
+          <DatePicker
+            label="Date of birth"
+            name="birthdate"
+            register={register}
+            errors={errors}
+            rules={{
+              required: 'Required',
+              max: getTodayDate(),
+            }}
+          />
+          <Select
+            label="Country"
+            name="country"
+            register={register}
+            errors={errors}
+            rules={{
+              required: 'Required',
+            }}
+            options={countriesOptions}
+          />
+          <Checkbox
+            label="Email me news and special offers"
+            name="subscribe"
+            register={register}
+            errors={errors}
+            rules={{
+              required: 'Required',
+            }}
+          />
+          <RadioGroup
+            name="sex"
+            register={register}
+            errors={errors}
+            rules={{
+              required: 'Required',
+            }}
+            options={genderOptions}
+          />
+          <InputFile
+            label="Profile Picture"
+            name="profilePicture"
+            register={register}
+            errors={errors}
+            rules={{
+              required: 'Required',
+            }}
+          />
+          <Submit value="Send" />
+        </form>
       </div>
-    )
-  }
+      <div className="my-6 flex flex-wrap gap-4">
+        {cards.map((card, index) => (
+          <UserCard
+            key={`${card.username}${index}`}
+            data={card}
+          />
+        ))}
+      </div>
+    </div>
+  )
 }

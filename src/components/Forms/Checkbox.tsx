@@ -1,33 +1,37 @@
-import { PureComponent } from 'react'
+import { ErrorMessage } from '@hookform/error-message'
+import { FieldValues, Path, RegisterOptions, UseFormRegister } from 'react-hook-form'
 
-type CheckboxProperties = {
+type CheckboxProperties<TFormValues extends FieldValues> = {
   label: string
-  name: string
-  required?: boolean
-  forwardRef?: React.Ref<HTMLInputElement>
-  isInvalid?: boolean
-  errorMessage?: string
+  name: Path<TFormValues>
+  errors: Record<string, unknown>
+  register: UseFormRegister<TFormValues>
+  rules?: RegisterOptions
 }
 
-export class Checkbox extends PureComponent<CheckboxProperties> {
-  render() {
-    const { label, name, required, forwardRef, errorMessage, isInvalid } = this.props
-
-    return (
-      <div>
-        <label className="inline-flex items-center">
-          <input
-            data-testid="input-checkbox"
-            ref={forwardRef}
-            className="form-checkbox"
-            type="checkbox"
-            name={name}
-            required={required}
-          />
-          <span className="ml-2 text-gray-700">{label}</span>
-        </label>
-        {isInvalid && <span className="block text-red-700">Error: {errorMessage}</span>}
-      </div>
-    )
-  }
+export const Checkbox = <TFormValues extends FieldValues>({
+  errors,
+  label,
+  name,
+  register,
+  rules,
+}: CheckboxProperties<TFormValues>) => {
+  return (
+    <div>
+      <label className="inline-flex cursor-pointer items-center">
+        <input
+          {...register(name, rules)}
+          data-testid="input-checkbox"
+          className="form-checkbox cursor-pointer"
+          type="checkbox"
+        />
+        <span className="ml-2 text-gray-700">{label}</span>
+      </label>
+      <ErrorMessage
+        errors={errors}
+        name={name}
+        render={({ message }) => <span className="block text-red-700">Error: {message}</span>}
+      />
+    </div>
+  )
 }

@@ -1,33 +1,37 @@
-import { PureComponent } from 'react'
+import { ErrorMessage } from '@hookform/error-message'
+import { FieldValues, Path, RegisterOptions, UseFormRegister } from 'react-hook-form'
 
-type DatePickerProperties = {
+type DatePickerProperties<TFormValues extends FieldValues> = {
   label: string
-  name: string
-  forwardRef?: React.Ref<HTMLInputElement>
-  isInvalid?: boolean
-  errorMessage?: string
-  max?: string
+  name: Path<TFormValues>
+  errors: Record<string, unknown>
+  register: UseFormRegister<TFormValues>
+  rules?: RegisterOptions
 }
 
-export class DatePicker extends PureComponent<DatePickerProperties> {
-  render() {
-    const { label, name, isInvalid, errorMessage, forwardRef, max } = this.props
-
-    return (
-      <div>
-        <label>
-          <span className="text-gray-700">{label}</span>
-          <input
-            data-testid="input-date"
-            ref={forwardRef}
-            className="form-input my-1 block w-full"
-            type="date"
-            name={name}
-            max={max}
-          />
-        </label>
-        {isInvalid && <span className="text-red-700">Error: {errorMessage}</span>}
-      </div>
-    )
-  }
+export const DatePicker = <TFormValues extends FieldValues>({
+  errors,
+  label,
+  name,
+  register,
+  rules,
+}: DatePickerProperties<TFormValues>) => {
+  return (
+    <div>
+      <label className="cursor-pointer">
+        <span className="text-gray-700">{label}</span>
+        <input
+          {...register(name, rules)}
+          data-testid="input-date"
+          className="form-input my-1 block w-full cursor-pointer"
+          type="date"
+        />
+      </label>
+      <ErrorMessage
+        errors={errors}
+        name={name}
+        render={({ message }) => <span className="text-red-700">Error: {message}</span>}
+      />
+    </div>
+  )
 }

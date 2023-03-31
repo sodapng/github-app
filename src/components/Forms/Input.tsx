@@ -1,31 +1,37 @@
-import { PureComponent } from 'react'
+import { ErrorMessage } from '@hookform/error-message'
+import { FieldValues, Path, RegisterOptions, UseFormRegister } from 'react-hook-form'
 
-type InputProperties = {
+type InputProperties<TFormValues extends FieldValues> = {
   label: string
-  name: string
-  forwardRef?: React.Ref<HTMLInputElement>
-  isInvalid?: boolean
-  errorMessage?: string
+  name: Path<TFormValues>
+  errors: Record<string, unknown>
+  register: UseFormRegister<TFormValues>
+  rules?: RegisterOptions
 }
 
-export class Input extends PureComponent<InputProperties> {
-  render() {
-    const { label, name, isInvalid, errorMessage, forwardRef } = this.props
-
-    return (
-      <div>
-        <label>
-          <span className="text-gray-700">{label}</span>
-          <input
-            data-testid="input-text"
-            ref={forwardRef}
-            className="form-input my-1 block w-full"
-            type="text"
-            name={name}
-          />
-        </label>
-        {isInvalid && <span className="text-red-700">Error: {errorMessage}</span>}
-      </div>
-    )
-  }
+export const Input = <TFormValues extends FieldValues>({
+  label,
+  name,
+  errors,
+  register,
+  rules,
+}: InputProperties<TFormValues>) => {
+  return (
+    <div>
+      <label className="cursor-pointer">
+        <span className="text-gray-700">{label}</span>
+        <input
+          {...register(name, rules)}
+          data-testid="input-text"
+          className="form-input my-1 block w-full"
+          type="text"
+        />
+      </label>
+      <ErrorMessage
+        errors={errors}
+        name={name}
+        render={({ message }) => <span className="text-red-700">Error: {message}</span>}
+      />
+    </div>
+  )
 }
