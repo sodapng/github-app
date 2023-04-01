@@ -1,3 +1,5 @@
+import 'react-toastify/dist/ReactToastify.css'
+
 import { type TUserCard, UserCard } from 'components'
 import {
   Checkbox,
@@ -12,7 +14,8 @@ import countriesOptions from 'data/countries.json'
 import genderOptions from 'data/gender.json'
 import { useEffect, useState } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
-import { formatUserCardData, getTodayDate } from 'utils'
+import { ToastContainer } from 'react-toastify'
+import { formatUserCardData, getTodayDate, notify } from 'utils'
 
 export type FormFields = {
   username: string
@@ -36,7 +39,10 @@ export function Form() {
   })
 
   useEffect(() => {
-    reset()
+    if (isSubmitSuccessful) {
+      notify('🦄 Card successfully created!')
+      reset()
+    }
   }, [reset, isSubmitSuccessful])
 
   const onSubmit: SubmitHandler<FormFields> = (data) => {
@@ -47,6 +53,7 @@ export function Form() {
 
   return (
     <div className="mx-auto px-12">
+      <ToastContainer />
       <div className="mx-auto my-4 w-1/3">
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -70,7 +77,8 @@ export function Form() {
               },
               pattern: {
                 value: /^[A-Za-z]\w+$/,
-                message: 'You can use the characters A-Z, a-z, 0-9 and underscore',
+                message:
+                  'The input must start with a letter and can include A-Z, a-z, 0-9, and underscore',
               },
             }}
           />
@@ -81,8 +89,8 @@ export function Form() {
             errors={errors}
             rules={{
               required: 'Required',
-              max: getTodayDate(),
             }}
+            max={getTodayDate()}
           />
           <Select
             label="Country"

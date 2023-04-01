@@ -7,6 +7,7 @@ type DatePickerProperties<TFormValues extends FieldValues> = {
   errors: Record<string, unknown>
   register: UseFormRegister<TFormValues>
   rules?: RegisterOptions
+  max?: string
 }
 
 export const DatePicker = <TFormValues extends FieldValues>({
@@ -15,6 +16,7 @@ export const DatePicker = <TFormValues extends FieldValues>({
   name,
   register,
   rules,
+  max,
 }: DatePickerProperties<TFormValues>) => {
   return (
     <div>
@@ -22,6 +24,7 @@ export const DatePicker = <TFormValues extends FieldValues>({
         <span className="text-gray-700">{label}</span>
         <input
           {...register(name, rules)}
+          max={max}
           data-testid="input-date"
           className="form-input my-1 block w-full cursor-pointer"
           type="date"

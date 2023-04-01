@@ -8,20 +8,20 @@ type RadioProperties = {
   'value'
 >
 
-// eslint-disable-next-line react/display-name
-export const Radio = forwardRef<HTMLInputElement, RadioProperties>(
-  ({ label, ...properties }, reference) => {
-    return (
-      <label className="inline-flex cursor-pointer items-center">
-        <input
-          ref={reference}
-          {...properties}
-          data-testid="input-radio"
-          className="form-radio"
-          type="radio"
-        />
-        <span className="ml-2 text-gray-700">{label}</span>
-      </label>
-    )
-  },
-)
+export const Radio = forwardRef<HTMLInputElement, RadioProperties>(function Radio(
+  { label, ...properties },
+  reference,
+) {
+  return (
+    <label className="inline-flex cursor-pointer items-center">
+      <input
+        ref={reference}
+        {...properties}
+        data-testid="input-radio"
+        className="form-radio"
+        type="radio"
+      />
+      <span className="ml-2 text-gray-700">{label}</span>
+    </label>
+  )
+})
