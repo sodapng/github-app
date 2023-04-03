@@ -35,7 +35,7 @@ export function Form() {
     reset,
     formState: { errors, isSubmitSuccessful },
   } = useForm<FormFields>({
-    mode: 'onChange',
+    reValidateMode: 'onSubmit',
   })
 
   useEffect(() => {
