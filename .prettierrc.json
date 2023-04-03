@@ -10,6 +10,7 @@
   "jsxSingleQuote": false,
   "useTabs": false,
   "trailingComma": "all",
+  "endOfLine": "auto",
   "plugins": ["prettier-plugin-tailwindcss"],
   "tailwindConfig": "./tailwind.config.cjs"
 }
