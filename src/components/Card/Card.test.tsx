@@ -4,42 +4,41 @@ import cards from 'data/cards.json'
 import { expect, test } from 'vitest'
 
 test('Компонент Card отображает заголовок и изображение правильно', () => {
-  const { body, imgSrc, title } = cards[0]
+  const { id, image, name } = cards[0]
 
   render(
     <Card
-      title={title}
-      body={body}
-      imgSrc={imgSrc}
+      key={id}
+      name={name}
+      image={image}
     />,
   )
 
-  expect(screen.getByText(title)).toBeInTheDocument()
+  expect(screen.getByText(name)).toBeInTheDocument()
 
   const testImage = screen.getByRole<HTMLInputElement>('img', { name: 'image' })
 
-  expect(testImage.src).toContain(imgSrc)
+  expect(testImage.src).toContain(image)
 })
 
 test('Компонент Card отображает изображение правильно для всех карточек', () => {
   render(
     <>
-      {cards.map(({ id, body, imgSrc, title }) => {
+      {cards.map(({ id, image, name }) => {
         return (
           <Card
             key={id}
-            body={body}
-            title={title}
-            imgSrc={imgSrc}
+            name={name}
+            image={image}
           />
         )
       })}
     </>,
   )
 
-  for (const { imgSrc } of cards) {
-    const testImage = screen.getByAltText<HTMLImageElement>(imgSrc)
-    expect(testImage.src).toContain(imgSrc)
+  for (const { image } of cards) {
+    const testImage = screen.getByAltText<HTMLImageElement>(image)
+    expect(testImage.src).toContain(image)
   }
 
   expect(screen.getAllByRole('img').length).toBe(cards.length)

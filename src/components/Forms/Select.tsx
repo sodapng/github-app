@@ -22,12 +22,12 @@ export const Select = <TFormValues extends FieldValues>({
     <div>
       <select
         {...register(name, rules)}
-        defaultValue=""
-        data-testid="select"
-        className="form-select mt-1 block w-full cursor-pointer"
+        defaultValue=''
+        data-testid='select'
+        className='form-select mt-1 block w-full cursor-pointer'
       >
         <option
-          value=""
+          value=''
           disabled
           hidden
         >
@@ -45,7 +45,7 @@ export const Select = <TFormValues extends FieldValues>({
       <ErrorMessage
         errors={errors}
         name={name}
-        render={({ message }) => <span className="text-red-700">Error: {message}</span>}
+        render={({ message }) => <span className='text-red-700'>Error: {message}</span>}
       />
     </div>
   )

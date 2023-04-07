@@ -52,17 +52,17 @@ export function Form() {
   }
 
   return (
-    <div className="mx-auto px-12">
+    <div className='mx-auto px-12'>
       <ToastContainer />
-      <div className="mx-auto my-4 w-1/3">
+      <div className='mx-auto my-4 w-1/3'>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-4"
-          data-testid="form"
+          className='flex flex-col gap-4'
+          data-testid='form'
         >
           <Input
-            label="Username"
-            name="username"
+            label='Username'
+            name='username'
             register={register}
             errors={errors}
             rules={{
@@ -83,8 +83,8 @@ export function Form() {
             }}
           />
           <DatePicker
-            label="Date of birth"
-            name="birthdate"
+            label='Date of birth'
+            name='birthdate'
             register={register}
             errors={errors}
             rules={{
@@ -93,8 +93,8 @@ export function Form() {
             max={getTodayDate()}
           />
           <Select
-            label="Country"
-            name="country"
+            label='Country'
+            name='country'
             register={register}
             errors={errors}
             rules={{
@@ -103,8 +103,8 @@ export function Form() {
             options={countriesOptions}
           />
           <Checkbox
-            label="Email me news and special offers"
-            name="subscribe"
+            label='Email me news and special offers'
+            name='subscribe'
             register={register}
             errors={errors}
             rules={{
@@ -112,7 +112,7 @@ export function Form() {
             }}
           />
           <RadioGroup
-            name="sex"
+            name='sex'
             register={register}
             errors={errors}
             rules={{
@@ -121,8 +121,8 @@ export function Form() {
             options={genderOptions}
           />
           <InputFile
-            label="Profile Picture"
-            name="profilePicture"
+            label='Profile Picture'
+            name='profilePicture'
             register={register}
             errors={errors}
             rules={{
@@ -137,10 +137,10 @@ export function Form() {
               },
             }}
           />
-          <Submit value="Send" />
+          <Submit value='Send' />
         </form>
       </div>
-      <div className="my-6 flex flex-wrap gap-4">
+      <div className='my-6 flex flex-wrap gap-4'>
         {cards.map((card, index) => (
           <UserCard
             key={`${card.username}${index}`}

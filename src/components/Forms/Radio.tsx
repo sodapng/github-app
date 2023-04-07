@@ -13,15 +13,15 @@ export const Radio = forwardRef<HTMLInputElement, RadioProperties>(function Radi
   reference,
 ) {
   return (
-    <label className="inline-flex cursor-pointer items-center">
+    <label className='inline-flex cursor-pointer items-center'>
       <input
         ref={reference}
         {...properties}
-        data-testid="input-radio"
-        className="form-radio"
-        type="radio"
+        data-testid='input-radio'
+        className='form-radio'
+        type='radio'
       />
-      <span className="ml-2 text-gray-700">{label}</span>
+      <span className='ml-2 text-gray-700'>{label}</span>
     </label>
   )
 })

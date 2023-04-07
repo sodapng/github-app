@@ -19,7 +19,7 @@ export const RadioGroup = <TFormValues extends FieldValues>({
 }: RadioGroupProperties<TFormValues>) => {
   return (
     <div>
-      <div className="flex gap-4">
+      <div className='flex gap-4'>
         {options.map(({ id, label, value }) => {
           return (
             <Radio
@@ -34,7 +34,7 @@ export const RadioGroup = <TFormValues extends FieldValues>({
       <ErrorMessage
         errors={errors}
         name={name}
-        render={({ message }) => <span className="text-red-700">Error: {message}</span>}
+        render={({ message }) => <span className='text-red-700'>Error: {message}</span>}
       />
     </div>
   )

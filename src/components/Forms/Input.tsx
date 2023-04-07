@@ -18,19 +18,19 @@ export const Input = <TFormValues extends FieldValues>({
 }: InputProperties<TFormValues>) => {
   return (
     <div>
-      <label className="cursor-pointer">
-        <span className="text-gray-700">{label}</span>
+      <label className='cursor-pointer'>
+        <span className='text-gray-700'>{label}</span>
         <input
           {...register(name, rules)}
-          data-testid="input-text"
-          className="form-input my-1 block w-full"
-          type="text"
+          data-testid='input-text'
+          className='form-input my-1 block w-full'
+          type='text'
         />
       </label>
       <ErrorMessage
         errors={errors}
         name={name}
-        render={({ message }) => <span className="text-red-700">Error: {message}</span>}
+        render={({ message }) => <span className='text-red-700'>Error: {message}</span>}
       />
     </div>
   )

@@ -1,4 +1,7 @@
 export * from 'components/Card/Card'
+export * from 'components/CardWithModal/CardForModal'
 export * from 'components/Layout'
+export * from 'components/Loader'
+export * from 'components/Modal/Modal'
 export * from 'components/Search/Search'
 export * from 'components/UserCard/UserCard'

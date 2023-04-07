@@ -18,19 +18,19 @@ export const Checkbox = <TFormValues extends FieldValues>({
 }: CheckboxProperties<TFormValues>) => {
   return (
     <div>
-      <label className="inline-flex cursor-pointer items-center">
+      <label className='inline-flex cursor-pointer items-center'>
         <input
           {...register(name, rules)}
-          data-testid="input-checkbox"
-          className="form-checkbox cursor-pointer"
-          type="checkbox"
+          data-testid='input-checkbox'
+          className='form-checkbox cursor-pointer'
+          type='checkbox'
         />
-        <span className="ml-2 text-gray-700">{label}</span>
+        <span className='ml-2 text-gray-700'>{label}</span>
       </label>
       <ErrorMessage
         errors={errors}
         name={name}
-        render={({ message }) => <span className="block text-red-700">Error: {message}</span>}
+        render={({ message }) => <span className='block text-red-700'>Error: {message}</span>}
       />
     </div>
   )

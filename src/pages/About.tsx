@@ -1,8 +1,8 @@
 export function About() {
   return (
-    <div className="mx-auto flex min-h-screen flex-auto flex-col items-center justify-center space-y-9 px-12 font-mono">
-      <h1 className="text-4xl font-bold">About Us💡</h1>
-      <p className="max-w-2xl">
+    <div className='mx-auto flex min-h-screen flex-auto flex-col items-center justify-center space-y-9 px-12 font-mono'>
+      <h1 className='text-4xl font-bold'>About Us💡</h1>
+      <p className='max-w-2xl'>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo quasi recusandae dolore
         impedit quos maiores ducimus aperiam aspernatur cupiditate qui, sunt consequatur, blanditiis
         architecto, quidem in alias rerum? Molestiae maxime laboriosam, quod quia, autem ad
