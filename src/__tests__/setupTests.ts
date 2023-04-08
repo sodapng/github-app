@@ -3,6 +3,8 @@ import '@testing-library/jest-dom'
 import { fetch, Request, Response } from '@remix-run/web-fetch'
 import { AbortController as NodeAbortController } from 'abort-controller'
 
+import { server } from './server'
+
 if (!globalThis.fetch) {
   // Built-in lib.dom.d.ts expects `fetch(Request | string, ...)` but the web
   // fetch API allows a URL so @remix-run/web-fetch defines
@@ -21,3 +23,15 @@ if (!globalThis.AbortController) {
   // @ts-expect-error
   globalThis.AbortController = NodeAbortController
 }
+
+beforeAll(() => {
+  server.listen()
+})
+
+afterAll(() => {
+  server.close()
+})
+
+afterEach(() => {
+  server.resetHandlers()
+})
