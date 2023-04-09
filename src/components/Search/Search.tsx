@@ -22,6 +22,7 @@ export function Search({ onChange, onKeyDown, value: initialValue = '' }: Search
 
   return (
     <input
+      data-testid='search'
       aria-label='search'
       className='mb-3 w-72 appearance-none rounded-md border px-3 py-1 outline-none focus-within:border-violet-500 focus-within:ring focus-within:ring-violet-300 focus-within:ring-offset-1'
       type='search'

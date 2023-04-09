@@ -1,3 +1,4 @@
 vite.config.ts
 tailwind.config.cjs
 postcss.config.cjs
+vite-env.d.ts

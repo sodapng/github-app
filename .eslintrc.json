@@ -40,14 +40,7 @@
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "unicorn/filename-case": "off",
-    "unicorn/prevent-abbreviations": [
-      "error",
-      {
-        "replacements": {
-          "env": false
-        }
-      }
-    ]
+    "unicorn/no-useless-undefined": ["error", { "checkArguments": false }]
   },
   "settings": {
     "import/resolver": {

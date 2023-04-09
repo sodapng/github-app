@@ -1,10 +1,8 @@
-import { apiClient, Character } from 'api/ApiClient'
-import { AxiosError } from 'axios'
+import type { Character } from 'api/ApiClient'
 import cx from 'clsx'
 import { Loader } from 'components'
-import { useMount } from 'hooks'
+import { useFetch } from 'hooks'
 import { XMarkIcon } from 'icons'
-import { useState } from 'react'
 
 type CardForModalProperties = {
   id: number
@@ -12,40 +10,19 @@ type CardForModalProperties = {
 }
 
 export function CardForModal({ id, onClose }: CardForModalProperties) {
-  const [data, setData] = useState<Character>({} as Character)
-  const [isLoading, setIsLoading] = useState(false)
-
-  const fetchData = () => {
-    setIsLoading(true)
-    apiClient
-      .getCharacter(id)
-      .then(({ data }) => {
-        setData(data)
-      })
-      .catch((error) => {
-        if (error instanceof AxiosError) {
-          console.log(error.message)
-        }
-        setData({} as Character)
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
-  }
-
-  useMount(fetchData)
+  const { data, isLoading } = useFetch<Character>(`https://rickandmortyapi.com/api/character/${id}`)
 
   if (isLoading) return <Loader />
 
   return (
     <div className='relative z-50'>
-      <div className='flex w-[600px] flex-row gap-2 rounded-lg border bg-white p-2 shadow-2xl shadow-slate-800'>
+      <div className='flex w-[600px] flex-row gap-2 rounded-lg border bg-white p-2 shadow-2xl shadow-zinc-500'>
         <div className='w-[230px] overflow-hidden rounded-md'>
           <img
             aria-label='image'
             loading='lazy'
             className='object-cover'
-            src={data.image}
+            src={data?.image}
             alt='{data.image}'
             width='230'
             height='230'
@@ -53,28 +30,28 @@ export function CardForModal({ id, onClose }: CardForModalProperties) {
         </div>
         <div className='flex flex-col justify-around text-lg font-bold text-slate-700'>
           <div>
-            <p className='flex items-center gap-2 text-3xl'>{data.name}</p>
+            <p className='flex items-center gap-2 text-3xl'>{data?.name}</p>
             <span className='flex items-center gap-2'>
               <span
                 className={cx(
                   'w-2 h-2 rounded-full',
-                  data.status === 'unknown'
+                  data?.status === 'unknown'
                     ? 'bg-slate-500'
-                    : data.status === 'Dead'
+                    : data?.status === 'Dead'
                     ? 'bg-red-500'
                     : 'bg-green-500',
                 )}
               />
-              {data.status} - {data.species} - {data.gender}
+              {data?.status} - {data?.species} - {data?.gender}
             </span>
           </div>
           <div>
             <p className='text-base text-slate-600'>Last known location:</p>
-            <p className=''>{data.location?.name}</p>
+            <p className=''>{data?.location?.name}</p>
           </div>
           <div>
             <p className='text-base text-slate-600'>First seen in:</p>
-            <p className=''>Episode {data.episode?.at(0)?.match(/\d+$/g)}</p>
+            <p className=''>Episode {data?.episode?.at(0)?.match(/\d+$/g)}</p>
           </div>
         </div>
       </div>
