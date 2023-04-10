@@ -16,6 +16,7 @@ export function Main() {
     if (event.repeat || !query) return
 
     if (event.key === 'Enter') {
+      localStorage.setItem('searchValue', event.currentTarget.value)
       fetchData()
     }
   }
