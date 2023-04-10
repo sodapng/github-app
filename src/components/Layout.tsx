@@ -11,7 +11,7 @@ export function Layout() {
   const location = useLocation()
 
   return (
-    <div className='relative min-h-screen'>
+    <div className='relative flex min-h-screen flex-col'>
       <div className='sticky top-0 z-50 w-full'>
         <header className='mx-auto flex items-center justify-between bg-white px-12 py-5 text-lg font-semibold text-slate-600 shadow-sm'>
           <nav className='grid grid-cols-3 divide-x rounded-md border text-center'>

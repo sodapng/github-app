@@ -29,13 +29,13 @@ export function Main() {
 
   return (
     <Fragment>
-      <div className='mx-auto my-4 min-h-screen px-12 text-slate-600'>
+      <div className='mx-auto my-4 w-full flex-auto px-12 text-slate-600'>
         <Search
           value={query}
           onChange={setQuery}
           onKeyDown={handleKeyDown}
         />
-        <div className='flex flex-wrap gap-5'>
+        <div className='grid grid-cols-4 gap-5'>
           {isLoading ? (
             <Loader />
           ) : (

@@ -52,7 +52,7 @@ export function Form() {
   }
 
   return (
-    <div className='mx-auto px-12'>
+    <div className='mx-auto w-full flex-auto px-12'>
       <ToastContainer />
       <div className='mx-auto my-4 w-1/3'>
         <form
