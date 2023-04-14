@@ -40,7 +40,10 @@
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "unicorn/filename-case": "off",
-    "unicorn/no-useless-undefined": ["error", { "checkArguments": false }]
+    "unicorn/prefer-spread": "off",
+    "unicorn/no-null": "off",
+    "unicorn/no-useless-undefined": ["error", { "checkArguments": false }],
+    "unicorn/consistent-function-scoping": ["error", { "checkArrowFunctions": false }]
   },
   "settings": {
     "import/resolver": {

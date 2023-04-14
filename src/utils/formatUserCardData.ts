@@ -10,7 +10,7 @@ export const formatUserCardData = ({
   return {
     ...rest,
     birthdate: new Date(birthdate).toLocaleDateString(),
-    profilePicture: profilePicture[0],
+    profilePicture: URL.createObjectURL(profilePicture[0]),
     subscribe: subscribe ? 'subscribed' : 'not subscribed',
   }
 }

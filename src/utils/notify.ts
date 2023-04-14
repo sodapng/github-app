@@ -1,7 +1,10 @@
 import { toast } from 'react-toastify'
 
-export const notify = (message: string) =>
-  toast.success(message, {
-    position: 'bottom-center',
+type TypeOptions = 'info' | 'success' | 'warning' | 'error'
+
+export const notify = (type: TypeOptions, message: string) => {
+  toast[type](`🦄 ${message}`, {
+    position: 'top-right',
     autoClose: 3000,
   })
+}

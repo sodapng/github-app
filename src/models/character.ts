@@ -1,5 +1,3 @@
-import axios, { AxiosInstance } from 'axios'
-
 export interface CharacterLocation {
   name: string
   url: string
@@ -41,25 +39,3 @@ export interface Info<T> {
   }
   results?: T
 }
-
-class ApiClient {
-  private api: AxiosInstance
-
-  constructor() {
-    this.api = axios.create({
-      baseURL: 'https://rickandmortyapi.com/api/character',
-    })
-  }
-
-  getCharacters = (filters?: CharacterFilter) => {
-    return this.api<Info<Character[]>>({
-      params: filters,
-    })
-  }
-
-  getCharacter = (id: number) => {
-    return this.api<Character>(`${id}`)
-  }
-}
-
-export const apiClient = new ApiClient()

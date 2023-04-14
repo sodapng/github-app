@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto'
 
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { renderWithProviders } from '__tests__/renderWithProviders'
+import { screen, waitForElementToBeRemoved } from '@testing-library/react'
 import { CardForModal } from 'components'
 import { expect, test, vi } from 'vitest'
 
@@ -11,7 +12,7 @@ vi.mock('components/Loader', () => ({
 }))
 
 test('CardForModal', async () => {
-  render(<CardForModal id={1} />)
+  renderWithProviders(<CardForModal id={1} />)
 
   expect(screen.getByTestId(mockLoaderTestId)).not.toBeNull()
 

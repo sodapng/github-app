@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto'
 
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { renderWithProviders } from '__tests__/renderWithProviders'
+import { screen, waitForElementToBeRemoved } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import characters from 'data/characters.json'
 import { Main } from 'pages'
@@ -15,7 +16,7 @@ vi.mock('components/Loader', () => ({
 test('Main', async () => {
   const user = userEvent.setup()
 
-  render(<Main />)
+  renderWithProviders(<Main />)
 
   expect(screen.getByTestId(mockLoaderTestId)).not.toBeNull()
 

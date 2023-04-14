@@ -1,8 +1,8 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { renderWithProviders } from '__tests__/renderWithProviders'
+import { fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { Form } from 'pages'
 import { test, vi } from 'vitest'
-
-import { Form } from './Form'
 
 test('Form page', async () => {
   window.URL.createObjectURL = vi.fn()
@@ -26,7 +26,7 @@ test('Form page', async () => {
     },
   ]
 
-  render(<Form />)
+  renderWithProviders(<Form />)
 
   const user = userEvent.setup()
 

@@ -1,23 +1,21 @@
-import type { Character, Info } from 'api/ApiClient'
 import { Card, CardForModal, Loader, Modal, Search } from 'components'
-import { useFetch } from 'hooks'
 import { Fragment, type KeyboardEvent, useState } from 'react'
+import { ToastContainer } from 'react-toastify'
+import { queryActions, useActionCreators, useAppSelector, useGetCharactersQuery } from 'store'
 
 export function Main() {
-  const [query, setQuery] = useState(localStorage.getItem('searchValue') ?? '')
+  const actions = useActionCreators(queryActions)
+  const query = useAppSelector((state) => state.query.value)
   const [isOpen, setIsOpen] = useState(false)
   const [id, setId] = useState<number>(-1)
-  const { data, fetchData, isLoading } = useFetch<Info<Character[]>>(
-    'https://rickandmortyapi.com/api/character',
-    { name: query },
-  )
+  const { isLoading, data } = useGetCharactersQuery({ name: query })
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.repeat || !query) return
+    if (event.repeat) return
 
     if (event.key === 'Enter') {
-      localStorage.setItem('searchValue', event.currentTarget.value)
-      fetchData()
+      const { value } = event.currentTarget
+      actions.setQuery({ value })
     }
   }
 
@@ -33,7 +31,6 @@ export function Main() {
       <div className='mx-auto my-4 w-full flex-auto px-12 text-slate-600'>
         <Search
           value={query}
-          onChange={setQuery}
           onKeyDown={handleKeyDown}
         />
         <div className='grid grid-cols-4 gap-5'>
@@ -59,6 +56,7 @@ export function Main() {
           onClose={onClose}
         />
       </Modal>
+      <ToastContainer />
     </Fragment>
   )
 }

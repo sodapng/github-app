@@ -1,4 +1,4 @@
-import type { MouseEventHandler, ReactNode } from 'react'
+import { MouseEventHandler, ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 
 type ModalProperties = {
@@ -8,22 +8,20 @@ type ModalProperties = {
 }
 
 export function Modal({ children, onClose, isOpen }: ModalProperties) {
-  return isOpen ? (
-    createPortal(
+  if (!isOpen) return null
+
+  return createPortal(
+    <div
+      data-testid='modal'
+      className='fixed left-1/2 top-1/2 z-50 flex h-full w-full -translate-x-1/2 -translate-y-1/2 items-center justify-center'
+    >
+      {children}
       <div
-        data-testid='modal'
-        className='fixed left-1/2 top-1/2 z-50 flex h-full w-full -translate-x-1/2 -translate-y-1/2 items-center justify-center'
-      >
-        {children}
-        <div
-          data-testid='modal-close'
-          onClick={onClose}
-          className='absolute z-40 h-full w-full cursor-pointer bg-violet-200 opacity-60'
-        />
-      </div>,
-      document.body,
-    )
-  ) : (
-    <></>
+        data-testid='modal-close'
+        onClick={onClose}
+        className='absolute z-40 h-full w-full cursor-pointer bg-violet-200 opacity-60'
+      />
+    </div>,
+    document.body,
   )
 }

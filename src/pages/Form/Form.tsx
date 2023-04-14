@@ -1,6 +1,4 @@
-import 'react-toastify/dist/ReactToastify.css'
-
-import { type TUserCard, UserCard } from 'components'
+import { UserCard } from 'components'
 import {
   Checkbox,
   DatePicker,
@@ -12,9 +10,10 @@ import {
 } from 'components/Forms'
 import countriesOptions from 'data/countries.json'
 import genderOptions from 'data/gender.json'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { ToastContainer } from 'react-toastify'
+import { cardsActions, useActionCreators, useAppSelector } from 'store'
 import { formatUserCardData, getTodayDate, notify } from 'utils'
 
 export type FormFields = {
@@ -27,7 +26,8 @@ export type FormFields = {
 }
 
 export function Form() {
-  const [cards, setCards] = useState<TUserCard[]>([])
+  const actions = useActionCreators(cardsActions)
+  const cards = useAppSelector((state) => state.cards.data)
 
   const {
     register,
@@ -40,15 +40,13 @@ export function Form() {
 
   useEffect(() => {
     if (isSubmitSuccessful) {
-      notify('🦄 Card successfully created!')
+      notify('success', 'Card successfully created!')
       reset()
     }
   }, [reset, isSubmitSuccessful])
 
   const onSubmit: SubmitHandler<FormFields> = (data) => {
-    setCards((previous) => {
-      return [...previous, formatUserCardData(data)]
-    })
+    actions.addCard({ card: formatUserCardData(data) })
   }
 
   return (
@@ -140,7 +138,7 @@ export function Form() {
           <Submit value='Send' />
         </form>
       </div>
-      <div className='my-6 flex flex-wrap gap-4'>
+      <div className='my-6 grid grid-cols-6 gap-5'>
         {cards.map((card, index) => (
           <UserCard
             key={`${card.username}${index}`}

@@ -1,18 +1,31 @@
-import type { Character } from 'api/ApiClient'
 import cx from 'clsx'
 import { Loader } from 'components'
-import { useFetch } from 'hooks'
 import { XMarkIcon } from 'icons'
+import { useEffect, useLayoutEffect } from 'react'
+import { useLazyGetCharacterByIdQuery } from 'store'
 
 type CardForModalProperties = {
   id: number
-  onClose?: React.MouseEventHandler<HTMLDivElement>
+  onClose?: () => void
 }
 
 export function CardForModal({ id, onClose }: CardForModalProperties) {
-  const { data, isLoading } = useFetch<Character>(`https://rickandmortyapi.com/api/character/${id}`)
+  const [trigger, { data, isLoading, isError }] = useLazyGetCharacterByIdQuery()
+
+  useLayoutEffect(() => {
+    const triggerId = trigger(id, true)
+
+    return () => triggerId.abort()
+  }, [id, trigger])
+
+  useEffect(() => {
+    if (isError) {
+      onClose?.()
+    }
+  }, [isError, onClose])
 
   if (isLoading) return <Loader />
+  if (isError) return null
 
   return (
     <div className='relative z-50'>

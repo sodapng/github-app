@@ -1,4 +1,3 @@
-import { useUnmount } from 'hooks'
 import { type ChangeEvent, useState } from 'react'
 
 type SearchProperties = {
@@ -8,11 +7,7 @@ type SearchProperties = {
 }
 
 export function Search({ onChange, onKeyDown, value: initialValue = '' }: SearchProperties) {
-  const [value, setValue] = useState(localStorage.getItem('searchValue') ?? initialValue)
-
-  useUnmount(() => {
-    localStorage.setItem('searchValue', value)
-  })
+  const [value, setValue] = useState(initialValue)
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
