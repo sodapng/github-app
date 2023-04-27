@@ -1,6 +1,16 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import {
+  buildCreateApi,
+  coreModule,
+  fetchBaseQuery,
+  reactHooksModule,
+} from '@reduxjs/toolkit/query/react'
 import { Character, CharacterFilter, Info } from 'models/character'
 import { notify } from 'utils'
+
+const createApi = buildCreateApi(
+  coreModule(),
+  reactHooksModule({ unstable__sideEffectsInRender: true }),
+)
 
 export const api = createApi({
   reducerPath: 'api',
@@ -27,4 +37,9 @@ export const api = createApi({
   keepUnusedDataFor: 300,
 })
 
-export const { useGetCharactersQuery, useLazyGetCharacterByIdQuery } = api
+export const {
+  useGetCharactersQuery,
+  useLazyGetCharactersQuery,
+  useLazyGetCharacterByIdQuery,
+  useGetCharacterByIdQuery,
+} = api

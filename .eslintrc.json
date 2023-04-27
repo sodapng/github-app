@@ -24,7 +24,8 @@
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module",
-    "project": "./tsconfig.json"
+    // "project": "./tsconfig.json",
+    "tsconfigRootDir": "./"
   },
   "plugins": ["simple-import-sort"],
   "rules": {
@@ -43,7 +44,8 @@
     "unicorn/prefer-spread": "off",
     "unicorn/no-null": "off",
     "unicorn/no-useless-undefined": ["error", { "checkArguments": false }],
-    "unicorn/consistent-function-scoping": ["error", { "checkArrowFunctions": false }]
+    "unicorn/consistent-function-scoping": ["error", { "checkArrowFunctions": false }],
+    "unicorn/prefer-top-level-await": "off"
   },
   "settings": {
     "import/resolver": {

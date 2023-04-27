@@ -1,8 +1,8 @@
 import cx from 'clsx'
 import { Loader } from 'components'
 import { XMarkIcon } from 'icons'
-import { useEffect, useLayoutEffect } from 'react'
-import { useLazyGetCharacterByIdQuery } from 'store'
+import { useEffect } from 'react'
+import { useGetCharacterByIdQuery } from 'store'
 
 type CardForModalProperties = {
   id: number
@@ -10,13 +10,7 @@ type CardForModalProperties = {
 }
 
 export function CardForModal({ id, onClose }: CardForModalProperties) {
-  const [trigger, { data, isLoading, isError }] = useLazyGetCharacterByIdQuery()
-
-  useLayoutEffect(() => {
-    const triggerId = trigger(id, true)
-
-    return () => triggerId.abort()
-  }, [id, trigger])
+  const { data, isFetching, isError } = useGetCharacterByIdQuery(id)
 
   useEffect(() => {
     if (isError) {
@@ -24,7 +18,7 @@ export function CardForModal({ id, onClose }: CardForModalProperties) {
     }
   }, [isError, onClose])
 
-  if (isLoading) return <Loader />
+  if (isFetching) return <Loader />
   if (isError) return null
 
   return (
