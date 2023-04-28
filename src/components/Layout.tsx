@@ -17,6 +17,7 @@ export function Layout() {
           <nav className='grid grid-cols-3 divide-x rounded-md border text-center'>
             {links.map(({ name, to }) => (
               <NavLink
+                data-testid={name}
                 key={name}
                 to={to}
                 className={({ isActive }) =>

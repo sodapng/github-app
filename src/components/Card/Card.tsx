@@ -8,7 +8,10 @@ type CardProperties = {
 
 export function Card({ image, name, onClick }: CardProperties) {
   return (
-    <div className='flex place-items-center'>
+    <div
+      data-testid='card_main'
+      className='flex place-items-center'
+    >
       <div
         data-testid={name}
         onClick={onClick}
