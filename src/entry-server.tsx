@@ -1,14 +1,13 @@
 import 'index.css'
 import 'react-toastify/dist/ReactToastify.css'
 
+import type { Response } from 'express'
+import { StrictMode } from 'react'
 import { renderToPipeableStream } from 'react-dom/server'
 import { Provider } from 'react-redux'
 import { StaticRouter } from 'react-router-dom/server'
 import { AppRoutes } from 'routes'
 import { api, setupStore } from 'store'
-
-import type { Response } from 'express'
-import { StrictMode } from 'react'
 
 const store = setupStore()
 

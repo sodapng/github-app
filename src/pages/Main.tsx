@@ -1,5 +1,5 @@
 import { Card, CardForModal, Loader, Modal, Search } from 'components'
-import { Fragment, type KeyboardEvent, useState, useEffect } from 'react'
+import { Fragment, type KeyboardEvent, useEffect, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
 import { queryActions, useActionCreators, useAppSelector, useGetCharactersQuery } from 'store'
 
@@ -13,7 +13,7 @@ export function Main() {
 
   useEffect(() => {
     actions.setQuery({ value })
-  }, [value])
+  }, [value, actions])
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.repeat) return
@@ -47,7 +47,7 @@ export function Main() {
             data?.results?.map(({ id, ...properties }) => (
               <Card
                 key={id}
-                onClick={() => onOpen(id - 1)}
+                onClick={() => onOpen(id)}
                 {...properties}
               />
             ))

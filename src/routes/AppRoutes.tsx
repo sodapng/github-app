@@ -2,7 +2,7 @@ import { Layout } from 'components'
 import { About, Form, Main, NotFound } from 'pages'
 import { type RouteObject, useRoutes } from 'react-router-dom'
 
-const routes: RouteObject[] = [
+export const routes: RouteObject[] = [
   {
     path: '/',
     element: <Layout />,
