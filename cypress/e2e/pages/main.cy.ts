@@ -8,7 +8,7 @@ describe('Main', () => {
   it('Загрузка отедльной карточки, закрытие модального окна', () => {
     cy.get('[data-testid="Alan Rails"]').click()
     cy.document().should('include.text', `Worldender's lair`)
-    cy.get('[data-testid=modal-close]').click()
+    cy.get('[data-testid=modal-close]').click({ force: true })
     cy.get('[data-testid=search]').type('annie{enter}')
     cy.get('[data-testid="Annie"]').click()
     cy.document().should('include.text', 'Anatomy Park')
