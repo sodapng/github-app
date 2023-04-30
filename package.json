@@ -14,6 +14,7 @@
     "dev:ts-node": "ts-node server.ts",
     "nyc": "npx nyc report --reporter=text-summary",
     "cypress": "cypress run --e2e",
+    "cypress:open": "cypress run open",
     "test:unit": "vitest run --coverage",
     "test:e2e": "start-server-and-test dev:ts-node http://localhost:5173 cypress && npm run nyc"
   },

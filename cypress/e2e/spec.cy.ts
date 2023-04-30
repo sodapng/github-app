@@ -1,6 +1,7 @@
 describe('Навигация', () => {
   it('Правильная работа навигации', () => {
     cy.visit('/')
+    cy.wait(10000)
     cy.get('[data-testid="About"]').click()
     cy.document().should('include.text', 'Lorem ipsum dolor sit amet')
     cy.url().should('include', '/about')
