@@ -1,0 +1,6 @@
+tailwind.config.cjs
+postcss.config.cjs
+src/vite-env.d.ts
+cypress.config.ts
+vite.config.ts
+cypress

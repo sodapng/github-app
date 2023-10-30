@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "name": "Teal",
+    "image": "https://picsum.photos/1000.webp?random=1"
+  },
+  {
+    "id": 2,
+    "name": "Red",
+    "image": "https://picsum.photos/1000.webp?random=2"
+  }
+]

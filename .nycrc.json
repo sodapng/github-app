@@ -1,0 +1,8 @@
+{
+  "check-coverage": true,
+  "all": true,
+  "extends": "@istanbuljs/nyc-config-typescript",
+  "reporter": ["none"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["cypress/**/*", "src/__tests__/**/*"]
+}
