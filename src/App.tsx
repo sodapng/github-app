@@ -84,9 +84,14 @@ export class App extends Component<AppProps, AppState> {
               <Loader />
             </div>
           )}
-          <ul className="grid grid-cols-3 p-2 gap-2">
-            {!isLoader &&
-              breeds.map(({ id, name, description }) => {
+          {!isLoader && breeds.length === 0 && (
+            <div className="grid w-full h-full place-items-center">
+              <span>Ничего не найдено 😭</span>
+            </div>
+          )}
+          {!isLoader && breeds.length > 0 && (
+            <ul className="grid grid-cols-3 p-2 gap-2">
+              {breeds.map(({ id, name, description }) => {
                 return (
                   <li key={id} className="border p-2 rounded-md">
                     <p>Name: {name}</p>
@@ -94,7 +99,8 @@ export class App extends Component<AppProps, AppState> {
                   </li>
                 )
               })}
-          </ul>
+            </ul>
+          )}
         </div>
       </div>
     )
