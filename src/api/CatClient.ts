@@ -32,10 +32,12 @@ class CatClient {
   }
 
   async getBreeds({
-    page = 1,
-    limit = 9,
+    page,
+    limit,
     name,
   }: { page?: number; limit?: number; name?: string } = {}) {
+    name = name || undefined
+
     const { data } = await this.api.get<CatApiResponse>('/breeds', {
       params: {
         page,
