@@ -36,6 +36,7 @@ class CatClient {
     limit,
     name,
   }: { page?: number; limit?: number; name?: string } = {}) {
+    // eslint-disable-next-line no-param-reassign
     name = name || undefined
 
     const { data } = await this.api.get<CatApiResponse>('/breeds', {
