@@ -122,6 +122,19 @@ export function App() {
             next
           </button>
         </div>
+        <div>
+          <input
+            type="number"
+            value={limit}
+            onChange={(e) => {
+              setSearchParams((prev) => {
+                prev.set('limit', e.target.value)
+
+                return prev
+              })
+            }}
+          />
+        </div>
       </div>
       <Outlet context={[setShow]} />
     </div>
