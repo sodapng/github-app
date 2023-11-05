@@ -1,58 +1,45 @@
-import { useEffect, useRef, useState } from 'react'
-import { Link, Outlet, useParams, useSearchParams } from 'react-router-dom'
-import useSWR from 'swr'
-import { CatBreed, catClient } from './api/CatClient'
-import { Loader } from './components/Loader'
+import cn from 'clsx'
+import { useLayoutEffect, useRef, useState } from 'react'
+import {
+  Link,
+  Outlet,
+  useOutletContext,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom'
 
-const useBreeds = (params: {
-  page?: number
-  limit?: number
-  name?: string
-}) => {
-  const { data, error, isLoading } = useSWR(params, async (_params) => {
-    const _data = await catClient.getBreeds(_params)
-
-    return _data
-  })
-
-  return {
-    data,
-    error,
-    isLoading,
-  }
-}
-
-const useBreedById = (id: string | undefined) => {
-  const { data, error, isLoading } = useSWR(id, async (_id) => {
-    if (!id) return
-
-    const _data = await catClient.getBreedById(_id)
-
-    return _data
-  })
-
-  return {
-    breed: data,
-    error,
-    isLoading,
-  }
-}
+import { Loader } from './components'
+import { useGetBreedById, useGetBreeds, useThrowError } from './hooks'
 
 export function App() {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [show, setShow] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams({
+    page: '1',
+    limit: '9',
+    name: localStorage.getItem('searchName') ?? '',
+  })
+  const [_, ErrorButton] = useThrowError()
 
-  const page = Number(searchParams.get('page') ?? 1)
-  const limit = Number(searchParams.get('limit') ?? 9)
+  const page = Number(searchParams.get('page'))
+  const limit = Number(searchParams.get('limit'))
   const searchName =
     searchParams.get('name') ?? localStorage.getItem('searchName') ?? undefined
 
-  const { data, isLoading } = useBreeds({
+  const { data, isLoading } = useGetBreeds({
     page,
     limit,
     name: searchName,
   })
 
-  const [isError, setIsError] = useState(false)
+  useLayoutEffect(() => {
+    setSearchParams({
+      page: `${page}`,
+      limit: `${limit}`,
+      name: `${searchName}`,
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -61,19 +48,29 @@ export function App() {
 
     setSearchParams((prev) => {
       prev.set('name', inputRef.current?.value ?? '')
+      prev.set('page', '1')
 
       return prev
     })
   }
 
-  if (isError) {
-    throw new Error('Sorry.. there was an error')
+  const handleClickPage = (value: number) => () => {
+    setSearchParams((prev) => {
+      prev.set('page', String(Number(page) + value))
+
+      return prev
+    })
   }
 
   return (
-    <div className="grid grid-cols-[1fr_3fr] 2 gap-4 container mx-auto px-4 py-4 h-screen font-mono">
-      {/* <button onClick={() => setIsError(true)}>Вызвать ошибку! 😈</button> */}
+    <div
+      className={cn(
+        'relative grid 2 gap-4 container mx-auto px-4 py-4 h-screen font-mono',
+        show && 'grid-cols-[1fr_3fr]',
+      )}
+    >
       <div className="flex flex-col gap-2 p-2 border rounded-md">
+        {ErrorButton}
         <div>
           <form onSubmit={handleSubmit} className="flex gap-1 items-center">
             <input
@@ -102,7 +99,8 @@ export function App() {
                 return (
                   <li key={id}>
                     <Link
-                      to={`/?details=${id}`}
+                      to={`/${id}?${searchParams}`}
+                      onClick={() => setShow(true)}
                       className="border p-2 rounded-md block hover:bg-gray-50"
                     >
                       {name}
@@ -113,18 +111,29 @@ export function App() {
             </ul>
           )}
         </div>
+        <div className="flex gap-2">
+          <button disabled={page === 1} onClick={handleClickPage(-1)}>
+            prev
+          </button>
+          <button
+            disabled={page >= data?.meta.total_pages!}
+            onClick={handleClickPage(1)}
+          >
+            next
+          </button>
+        </div>
       </div>
-      <Outlet />
+      <Outlet context={[setShow]} />
     </div>
   )
 }
 
 export function CardCatBreed() {
-  console.log(123)
-
+  const [setShow] =
+    useOutletContext<[React.Dispatch<React.SetStateAction<boolean>>]>()
   const { breedId } = useParams()
-
-  const { breed, isLoading } = useBreedById(breedId)
+  const [searchParams] = useSearchParams()
+  const { data, isLoading } = useGetBreedById(breedId)
 
   if (isLoading) {
     return (
@@ -135,15 +144,22 @@ export function CardCatBreed() {
   }
 
   return (
-    <div className="border rounded-md p-2 flex flex-col gap-2">
-      <h1 className="text-3xl font-extrabold">{breed?.name}</h1>
-      <img
-        loading="lazy"
-        className="object-cover w-48 h-48 rounded-md"
-        src={breed?.image.url}
-        alt={breed?.name}
+    <>
+      <Link
+        to={`/?${searchParams}`}
+        className="absolute top-0 left-0 cursor-pointer bg-gray-50 opacity-30 w-full h-full"
+        onClick={() => setShow(false)}
       />
-      <p>{breed?.description}</p>
-    </div>
+      <div className="relative z-10 bg-white border rounded-md p-2 flex flex-col gap-2">
+        <h1 className="text-3xl font-extrabold">{data?.name}</h1>
+        <img
+          loading="lazy"
+          className="object-cover w-48 h-48 rounded-md"
+          src={data?.image.url}
+          alt={data?.name}
+        />
+        <p>{data?.description}</p>
+      </div>
+    </>
   )
 }
